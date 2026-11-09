@@ -1,0 +1,53 @@
+<div class="shell">
+
+ <app-menu></app-menu>
+
+  <!-- Contenu -->
+  <main class="content">
+
+    <!-- Bannière -->
+    <section class="hero">
+      <div>
+        <h1>Gestion des étudiants</h1>
+        <p>Ajoutez, modifiez et organisez les étudiants de votre établissement.</p>
+      </div>
+      <button class="btn light" (click)="openAdd()">+ Ajouter un étudiant</button>
+    </section>
+
+    <!-- Statistiques -->
+    <section class="stats">
+      <div class="stat">
+        <span class="stat-ico">👩‍🎓</span>
+        <div><strong>{{ etudiants.length }}</strong><small>Étudiants</small></div>
+      </div>
+      <div class="stat">
+        <span class="stat-ico">📚</span>
+        <div><strong>{{ nbFilieres }}</strong><small>Filières</small></div>
+      </div>
+      <div class="stat">
+        <span class="stat-ico">🎓</span>
+        <div><strong>{{ nbMasters }}</strong><small>En Master</small></div>
+      </div>
+    </section>
+
+    <!-- Barre d'outils -->
+    <section class="toolbar">
+      <div class="search-box">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="search" placeholder="Rechercher par nom, e-mail, filière…" [(ngModel)]="search">
+      </div>
+      <div class="chips">
+        <button type="button" class="chip" [class.on]="filtreNiveau === ''" (click)="filtreNiveau = ''">Tous</button>
+        <button type="button" class="chip" *ngFor="let n of niveaux"
+                [class.on]="filtreNiveau === n" (click)="setNiveau(n)">{{ n }}</button>
+      </div>
+    </section>
+
+    <!-- Tableau -->
+    <section class="card">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Étudiant</th><th>Filière</th><th>Niveau</th><th class="right">Actions</th></tr>
+          </thead>
+          <tbody>

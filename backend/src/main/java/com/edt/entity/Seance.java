@@ -46,4 +46,7 @@ public class Seance {
     @ManyToOne(optional = false)
     @JoinColumn(name = "professeur_id", nullable = false)
     private Professeur professeur;
+    public void setEmploiDuTemps(EmploiDuTemps emploiDuTemps) {
+        this.emploiDuTemps = emploiDuTemps;
+    }
 }

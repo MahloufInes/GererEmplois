@@ -7,13 +7,17 @@ import lombok.*;
 @Entity
 @Table(name = "etudiant")
 @PrimaryKeyJoinColumn(name = "id")
-@Getter @Setter @NoArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
 public class Etudiant extends Utilisateur {
 
     @Column(nullable = false, unique = true, length = 50)
     private String matricule;
 
-    /** Etudiant 0..* --- regroupe (agregation) --- 1 Groupe */
+    /**
+     * Etudiant 0..* --- regroupe --- 1 Groupe
+     */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "groupe_id")
     @JsonIgnore

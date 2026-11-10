@@ -1,2 +1,8 @@
 package com.edt.entity.enums;
-public enum Role { ADMINISTRATEUR, PROFESSEUR, ETUDIANT }
+
+public enum Role {
+    ADMINISTRATEUR,
+    SOUS_ADMINISTRATEUR,
+    PROFESSEUR,
+    ETUDIANT
+}

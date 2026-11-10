@@ -11,9 +11,6 @@ import java.util.List;
 @Table(name = "filiere")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class Filiere {
-    @OneToMany(mappedBy = "filiere")
-    @JsonIgnore
-    private List<Enseignement> enseignements = new ArrayList<>();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

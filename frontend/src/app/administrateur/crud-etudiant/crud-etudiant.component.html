@@ -1,8 +1,8 @@
+
 <div class="shell">
 
- <app-menu></app-menu>
+  <app-menu></app-menu>
 
-  <!-- Contenu -->
   <main class="content">
 
     <!-- Bannière -->
@@ -11,35 +11,57 @@
         <h1>Gestion des étudiants</h1>
         <p>Ajoutez, modifiez et organisez les étudiants de votre établissement.</p>
       </div>
-      <button class="btn light" (click)="openAdd()">+ Ajouter un étudiant</button>
+      <button class="btn light" (click)="openAdd()">
+        + Ajouter un étudiant
+      </button>
     </section>
 
     <!-- Statistiques -->
     <section class="stats">
       <div class="stat">
         <span class="stat-ico">👩‍🎓</span>
-        <div><strong>{{ etudiants.length }}</strong><small>Étudiants</small></div>
+        <div>
+          <strong>{{ etudiants.length }}</strong>
+          <small>Étudiants</small>
+        </div>
       </div>
+
       <div class="stat">
         <span class="stat-ico">📚</span>
-        <div><strong>{{ nbFilieres }}</strong><small>Filières</small></div>
+        <div>
+          <strong>{{ nbFilieres }}</strong>
+          <small>Filières</small>
+        </div>
       </div>
+
       <div class="stat">
-        <span class="stat-ico">🎓</span>
-        <div><strong>{{ nbMasters }}</strong><small>En Master</small></div>
+        <span class="stat-ico">👥</span>
+        <div>
+          <strong>{{ nbGroupes }}</strong>
+          <small>Groupes</small>
+        </div>
       </div>
     </section>
 
-    <!-- Barre d'outils -->
+    <!-- Erreur -->
+    <div *ngIf="erreur" class="alert alert-danger">
+      {{ erreur }}
+    </div>
+
+    <!-- Barre de recherche -->
     <section class="toolbar">
       <div class="search-box">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-        <input type="search" placeholder="Rechercher par nom, e-mail, filière…" [(ngModel)]="search">
-      </div>
-      <div class="chips">
-        <button type="button" class="chip" [class.on]="filtreNiveau === ''" (click)="filtreNiveau = ''">Tous</button>
-        <button type="button" class="chip" *ngFor="let n of niveaux"
-                [class.on]="filtreNiveau === n" (click)="setNiveau(n)">{{ n }}</button>
+        <svg width="16" height="16" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="7"></circle>
+          <path d="m21 21-4.3-4.3"></path>
+        </svg>
+
+        <input
+          type="search"
+          placeholder="Rechercher par nom, e-mail, filière..."
+          [(ngModel)]="search">
       </div>
     </section>
 
@@ -48,6 +70,148 @@
       <div class="table-wrap">
         <table>
           <thead>
-            <tr><th>Étudiant</th><th>Filière</th><th>Niveau</th><th class="right">Actions</th></tr>
+            <tr>
+              <th>Étudiant</th>
+              <th>Matricule</th>
+              <th>Filière</th>
+              <th>Groupe</th>
+              <th class="right">Actions</th>
+            </tr>
           </thead>
+
           <tbody>
+
+            <tr *ngFor="let e of filtered">
+              <td>
+                <div class="person">
+                  <div class="avatar" [style.background]="couleur(e)">
+                    {{ initiales(e) }}
+                  </div>
+
+                  <div>
+                    <strong>{{ e.prenom }} {{ e.nom }}</strong>
+                    <small>{{ e.email }}</small>
+                  </div>
+                </div>
+              </td>
+
+              <td>{{ e.matricule }}</td>
+
+              <td>{{ e.filiere }}</td>
+
+              <td>
+                <span class="badge">{{ e.groupe }}</span>
+              </td>
+
+              <td class="right">
+                <button class="icon" title="Modifier" disabled>✏️</button>
+                <button class="icon del" title="Supprimer" disabled>🗑️</button>
+              </td>
+            </tr>
+
+            <tr *ngIf="filtered.length === 0 && !loading">
+              <td colspan="5">
+                <div class="empty">
+                  <span class="empty-ico">🔍</span>
+                  <strong>Aucun étudiant trouvé</strong>
+                  <small>Essayez une autre recherche.</small>
+                </div>
+              </td>
+            </tr>
+
+            <tr *ngIf="loading">
+              <td colspan="5">
+                Chargement des étudiants...
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+
+      <div class="table-foot">
+        {{ filtered.length }} étudiant(s) affiché(s)
+      </div>
+    </section>
+
+    <!-- Fenêtre d'ajout -->
+    <div class="overlay" *ngIf="showForm">
+      <div class="modal">
+
+        <div class="modal-head">
+          <h2>Ajouter un étudiant</h2>
+          <button class="close" type="button" (click)="close()">✕</button>
+        </div>
+
+        <form [formGroup]="form" (ngSubmit)="save()">
+
+          <div class="grid">
+            <div>
+              <label>Nom</label>
+              <input type="text" formControlName="nom" placeholder="Nom">
+
+              <small *ngIf="form.get('nom')?.touched && form.get('nom')?.invalid">
+                Le nom est obligatoire.
+              </small>
+            </div>
+
+            <div>
+              <label>Prénom</label>
+              <input type="text" formControlName="prenom" placeholder="Prénom">
+
+              <small *ngIf="form.get('prenom')?.touched && form.get('prenom')?.invalid">
+                Le prénom est obligatoire.
+              </small>
+            </div>
+          </div>
+
+          <label>Email</label>
+          <input type="email" formControlName="email" placeholder="exemple@email.com">
+
+          <small *ngIf="form.get('email')?.touched && form.get('email')?.invalid">
+            Veuillez saisir un email valide.
+          </small>
+
+          <label>Matricule</label>
+          <input type="text" formControlName="matricule" placeholder="Ex : DSI2026001">
+
+          <small *ngIf="form.get('matricule')?.touched && form.get('matricule')?.invalid">
+            Le matricule est obligatoire.
+          </small>
+
+          <label>Mot de passe initial</label>
+          <input type="password" formControlName="motDePasse" placeholder="Mot de passe">
+
+          <small *ngIf="form.get('motDePasse')?.touched && form.get('motDePasse')?.invalid">
+            Le mot de passe est obligatoire.
+          </small>
+
+          <label>Groupe</label>
+          <select formControlName="groupeId">
+            <option [ngValue]="null">Choisir un groupe</option>
+
+            <option *ngFor="let g of groupes" [ngValue]="g.id">
+              {{ g.nom }} - {{ g.filiere }}
+            </option>
+          </select>
+
+          <small *ngIf="form.get('groupeId')?.touched && form.get('groupeId')?.invalid">
+            Veuillez choisir un groupe.
+          </small>
+
+          <div class="footer">
+            <button type="button" class="btn ghost" (click)="close()">
+              Annuler
+            </button>
+
+            <button type="submit" class="btn primary">
+              Ajouter
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+
+  </main>
+</div>

@@ -9,11 +9,13 @@ import lombok.*;
 import java.util.HashSet;
 import java.util.Set;
 
-/** Classe mere : heritage JOINED (une table par sous-classe). */
 @Entity
 @Table(name = "utilisateur")
 @Inheritance(strategy = InheritanceType.JOINED)
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public abstract class Utilisateur {
 
     @Id
@@ -34,10 +36,9 @@ public abstract class Utilisateur {
     private String motDePasse;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false, length = 30)
     private Role role;
 
-    /** Notification 0..* --- destinee a --- 1..* Utilisateur */
     @JsonIgnore
     @ManyToMany(mappedBy = "destinataires")
     private Set<Notification> notifications = new HashSet<>();

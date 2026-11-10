@@ -9,12 +9,28 @@
 
     <p class="menu-title">Administration</p>
     <nav>
-      <span class="item">Tableau de bord</span>
-      <span class="item active">Étudiants</span>
-      <span class="item">Enseignants</span>
-      <span class="item">Salles</span>
-      <span class="item">Emplois du temps</span>
-    </nav>
+  <span class="item">Tableau de bord</span>
+
+  <a class="item"
+     routerLink="/crudEtud"
+     routerLinkActive="active">
+    Étudiants
+  </a>
+
+  <a class="item"
+     routerLink="/crudGroupes"
+     routerLinkActive="active">
+    Groupes
+  </a>
+  <a class="item"
+   routerLink="/crudFilieres"
+   routerLinkActive="active">
+  Filières
+</a>
+  <span class="item">Enseignants</span>
+  <span class="item">Salles</span>
+  <span class="item">Emplois du temps</span>
+</nav>
 
     <div class="user">
       <div class="avatar" style="background:#6352c9">AD</div>

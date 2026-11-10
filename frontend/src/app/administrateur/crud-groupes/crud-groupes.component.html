@@ -1,0 +1,140 @@
+
+<div class="shell">
+
+  <app-menu></app-menu>
+
+  <main class="content">
+
+    <section class="hero">
+      <div>
+        <h1>Gestion des groupes</h1>
+        <p>Ajoutez, modifiez et organisez les groupes de votre établissement.</p>
+      </div>
+
+      <button class="btn light" (click)="openAdd()">
+        + Ajouter un groupe
+      </button>
+    </section>
+
+    <section class="stats">
+      <div class="stat-card">
+        <h3>{{ groupes.length }}</h3>
+        <p>Total des groupes</p>
+      </div>
+
+      <div class="stat-card">
+        <h3>{{ filieres.length }}</h3>
+        <p>Filières disponibles</p>
+      </div>
+
+      <div class="stat-card">
+        <h3>{{ groupes.length}}</h3>
+        <p>Gestion des groupes</p>
+      </div>
+    </section>
+
+    <section class="toolbar">
+      <input
+        type="text"
+        [(ngModel)]="search"
+        placeholder="Rechercher un groupe ou une filière..."
+      >
+    </section>
+
+    <p class="error" *ngIf="erreur">{{ erreur }}</p>
+
+    <div class="table-container">
+
+      <p *ngIf="chargement">Chargement des groupes...</p>
+
+      <table *ngIf="!chargement">
+        <thead>
+          <tr>
+            <th>Nom du groupe</th>
+            <th>Effectif</th>
+            <th>Filière</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let g of filtered">
+            <td>{{ g.nom }}</td>
+            <td>{{ g.effectif }} étudiants</td>
+            <td>{{ g.filiere }}</td>
+            <td>
+              <button class="btn-edit" (click)="openEdit(g)">
+                Modifier
+              </button>
+
+              <button class="btn-delete" (click)="supprimer(g)">
+                Supprimer
+              </button>
+            </td>
+          </tr>
+
+          <tr *ngIf="filtered.length === 0">
+            <td colspan="4">Aucun groupe trouvé.</td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+
+  </main>
+
+  <div class="modal-backdrop" *ngIf="showForm">
+    <div class="modal">
+
+      <h2>{{ editingId === null ? 'Ajouter un groupe' : 'Modifier un groupe' }}</h2>
+
+      <form (ngSubmit)="save()">
+
+        <label>Nom du groupe</label>
+        <input
+          type="text"
+          name="nom"
+          [(ngModel)]="form.nom"
+          placeholder="Exemple : DSI 2.2"
+          required
+        >
+
+        <label>Effectif</label>
+        <input
+          type="number"
+          name="effectif"
+          [(ngModel)]="form.effectif"
+          min="1"
+          required
+        >
+
+        <label>Filière</label>
+        <select
+          name="filiereId"
+          [(ngModel)]="form.filiereId"
+          required
+        >
+          <option [ngValue]="0" disabled>Choisir une filière</option>
+
+          <option *ngFor="let f of filieres" [ngValue]="f.id">
+            {{ f.nom }}
+          </option>
+        </select>
+
+        <p class="error" *ngIf="erreur">{{ erreur }}</p>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-cancel" (click)="close()">
+            Annuler
+          </button>
+
+          <button type="submit" class="btn-save">
+            {{ editingId === null ? 'Ajouter' : 'Enregistrer' }}
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+</div>

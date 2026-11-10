@@ -23,11 +23,6 @@ public class Departement {
     @Column(nullable = false, length = 150)
     private String nom;
 
-    /** Chef de departement (optionnel) */
-    @OneToOne
-    @JoinColumn(name = "chef_id")
-    @JsonIgnore
-    private Professeur chef;
 
     @JsonIgnore
     @OneToMany(mappedBy = "departement")

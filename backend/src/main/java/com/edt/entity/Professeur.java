@@ -12,6 +12,12 @@ import java.util.List;
 @PrimaryKeyJoinColumn(name = "id")
 @Getter @Setter @NoArgsConstructor
 public class Professeur extends Utilisateur {
+    @OneToMany(mappedBy = "professeur")
+    @JsonIgnore
+    private List<PreferenceMatiere> preferencesMatieres = new ArrayList<>();
+    @OneToMany(mappedBy = "professeur")
+    @JsonIgnore
+    private List<Enseignement> enseignements = new ArrayList<>();
 
     @Column(length = 100)
     private String specialite;

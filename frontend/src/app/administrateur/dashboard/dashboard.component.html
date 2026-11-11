@@ -1,0 +1,89 @@
+
+<div class="shell">
+
+  <app-menu></app-menu>
+
+  <main class="content">
+
+    <div class="dashboard">
+
+      <div class="welcome">
+        <div>
+          <h1>Bienvenue sur EduPlanning 👋</h1>
+          <p>Voici un aperçu de la gestion de votre établissement.</p>
+        </div>
+        <span class="date">Tableau de bord</span>
+      </div>
+
+      <!-- Cartes statistiques -->
+      <div class="stats">
+
+        <div class="stat-card">
+          <div class="stat-icon purple">🎓</div>
+          <div>
+            <h3>{{ nombreEtudiants }}</h3>
+            <p>Étudiants</p>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon blue">👨‍🏫</div>
+          <div>
+            <h3>25</h3>
+            <p>Enseignants</p>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon green">📚</div>
+          <div>
+            <h3>{{ nombreFilieres }}</h3>
+            <p>Filières</p>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon orange">👥</div>
+          <div>
+            <h3>{{ nombreGroupes }}</h3>
+            <p>Groupes</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Activités -->
+      <div class="activity-card">
+        <h2>Activités récentes</h2>
+
+        <div class="activity">
+          <span class="activity-icon">🎓</span>
+          <div>
+            <strong>Gestion des étudiants</strong>
+            <p>Consulter et gérer les étudiants.</p>
+          </div>
+        </div>
+
+        <div class="activity">
+          <span class="activity-icon">📚</span>
+          <div>
+            <strong>Gestion des filières</strong>
+            <p>Organiser les filières de l'établissement.</p>
+          </div>
+        </div>
+
+        <div class="activity">
+          <span class="activity-icon">📅</span>
+          <div>
+            <strong>Emplois du temps</strong>
+            <p>Organiser les séances et les horaires.</p>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+</div>

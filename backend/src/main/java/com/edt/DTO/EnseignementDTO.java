@@ -1,5 +1,5 @@
 
-package com.edt.DTO;
+package com.edt.dto;
 
 import lombok.*;
 
@@ -9,9 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class EnseignementDTO {
-
     private Long id;
-
     private Long professeurId;
     private String professeurNom;
     private String professeurPrenom;

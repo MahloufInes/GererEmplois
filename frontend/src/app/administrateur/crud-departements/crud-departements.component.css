@@ -1,0 +1,370 @@
+
+/* ---------- Structure générale ---------- */
+.shell {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  min-height: 100vh;
+  background: #e2daf5;
+}
+
+.content {
+  padding: 32px 40px 48px;
+  max-width: 1100px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* ---------- En-tête ---------- */
+.hero {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding: 32px 36px;
+  border-radius: 24px;
+  color: #fff;
+  background: linear-gradient(120deg, #4b3bb0 0%, #6352c9 55%, #8a7bdc 100%);
+  box-shadow: 0 16px 36px rgba(75, 59, 176, .28);
+}
+
+.hero::before,
+.hero::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .1);
+}
+
+.hero::before {
+  width: 220px;
+  height: 220px;
+  right: -50px;
+  top: -90px;
+}
+
+.hero::after {
+  width: 140px;
+  height: 140px;
+  right: 140px;
+  bottom: -80px;
+}
+
+.hero > * {
+  position: relative;
+  z-index: 1;
+}
+
+.hero h1 {
+  font-size: 26px;
+  font-weight: 600;
+}
+
+.hero p {
+  margin-top: 8px;
+  font-size: 14px;
+  opacity: .85;
+  max-width: 420px;
+  line-height: 1.5;
+}
+
+/* ---------- Bouton principal ---------- */
+.btn {
+  height: 44px;
+  padding: 0 20px;
+  border: 0;
+  border-radius: 12px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.btn.light {
+  background: #fff;
+  color: #4b3bb0;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, .15);
+  white-space: nowrap;
+}
+
+.btn.light:hover {
+  background: #f1eefb;
+}
+
+.btn:active {
+  transform: scale(.98);
+}
+
+/* ---------- Statistiques ---------- */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin: 24px 0;
+}
+
+.stat-card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 18px;
+  border: 1px solid #c4b8e6;
+  box-shadow: 0 4px 14px rgba(70, 55, 140, .06);
+}
+
+.stat-card h3 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #4b3bb0;
+}
+
+.stat-card p {
+  font-size: 13px;
+  color: #77718f;
+}
+
+/* ---------- Tableau ---------- */
+.table-card {
+  background: #fff;
+  border: 1px solid #c4b8e6;
+  border-radius: 20px;
+  box-shadow: 0 4px 14px rgba(70, 55, 140, .06);
+  overflow: hidden;
+}
+
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 20px 24px;
+}
+
+.table-header h2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #4b3bb0;
+}
+
+.table-header input {
+  height: 44px;
+  min-width: 240px;
+  padding: 0 16px;
+  border: 1px solid #d3c9ee;
+  border-radius: 12px;
+  outline: none;
+  font: inherit;
+}
+
+.table-header input:focus {
+  border-color: #6352c9;
+  box-shadow: 0 0 0 3px rgba(99, 82, 201, .15);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+th {
+  text-align: left;
+  padding: 16px 24px;
+  background: #f6f3fc;
+  color: #77718f;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+td {
+  padding: 16px 24px;
+  border-top: 1px solid #e5e0f0;
+  vertical-align: middle;
+  color: #37334b;
+}
+
+tbody tr:hover {
+  background: #f1edfb;
+}
+
+/* ---------- Boutons actions ---------- */
+.edit,
+.delete {
+  padding: 8px 14px;
+  border: 0;
+  border-radius: 9px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-right: 6px;
+  transition: .2s;
+}
+
+.edit {
+  background: #eeeafd;
+  color: #4b3bb0;
+}
+
+.edit:hover {
+  background: #dcd5fa;
+}
+
+.delete {
+  background: #fdeceb;
+  color: #c0392b;
+}
+
+.delete:hover {
+  background: #fbd5d2;
+}
+
+/* ---------- Messages ---------- */
+.error {
+  color: #c0392b;
+  font-size: 13px;
+  padding: 10px 24px;
+}
+
+.table-card > p:not(.error) {
+  padding: 12px 24px;
+  color: #77718f;
+}
+
+/* ---------- Fenêtre modale ---------- */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(34, 31, 58, .5);
+  backdrop-filter: blur(3px);
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  z-index: 1000;
+}
+
+.modal {
+  background: #fff;
+  border-radius: 22px;
+  padding: 32px;
+  width: 100%;
+  max-width: 540px;
+  max-height: 90vh;
+  overflow: auto;
+  box-shadow: 0 24px 60px rgba(34, 31, 58, .3);
+}
+
+.modal h2 {
+  font-size: 20px;
+  color: #4b3bb0;
+  margin-bottom: 24px;
+}
+
+.modal label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  margin: 12px 0 8px;
+  color: #37334b;
+}
+
+.modal input,
+.modal select {
+  width: 100%;
+  height: 48px;
+  padding: 0 14px;
+  margin-bottom: 6px;
+  border: 1px solid #d3c9ee;
+  border-radius: 12px;
+  font: inherit;
+  font-size: 14px;
+  outline: 0;
+  background: #fff;
+}
+
+.modal input:focus,
+.modal select:focus {
+  border-color: #6352c9;
+  box-shadow: 0 0 0 3px rgba(99, 82, 201, .15);
+}
+
+/* ---------- Boutons modal ---------- */
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.cancel,
+.save {
+  height: 44px;
+  padding: 0 20px;
+  border: 0;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.cancel {
+  background: #eeeafd;
+  color: #4b3bb0;
+}
+
+.save {
+  background: #4b3bb0;
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(75, 59, 176, .28);
+}
+
+.save:hover {
+  background: #3d2f96;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+  .content {
+    padding: 20px 16px 40px;
+  }
+
+  .hero {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 24px;
+  }
+
+  .stats {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .shell {
+    grid-template-columns: 1fr;
+  }
+
+  .table-header {
+    align-items: stretch;
+  }
+
+  .table-header input {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .table-card {
+    overflow-x: auto;
+  }
+
+  table {
+    min-width: 550px;
+  }
+
+  .modal {
+    padding: 22px;
+  }
+}

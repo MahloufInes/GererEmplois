@@ -1,0 +1,63 @@
+
+<div class="shell">
+
+  <app-menu></app-menu>
+
+  <main class="content">
+
+    <section class="hero">
+      <div>
+        <h1>Gestion des enseignants</h1>
+        <p>Consultez et organisez les professeurs de votre établissement.</p>
+      </div>
+    </section>
+
+    <div class="card">
+
+      <div class="card-header">
+        <h2>Liste des professeurs</h2>
+        <span>Total : {{ professeurs.length }}</span>
+      </div>
+
+      <p *ngIf="chargement">Chargement...</p>
+
+      <p *ngIf="messageErreur" class="error">
+        {{ messageErreur }}
+      </p>
+
+      <div class="table-wrap" *ngIf="!chargement && !messageErreur">
+
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nom</th>
+              <th>Prénom</th>
+              <th>Email</th>
+              <th>Spécialité</th>
+              <th>Département</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let p of professeurs">
+              <td>{{ p.id }}</td>
+              <td>{{ p.nom }}</td>
+              <td>{{ p.prenom }}</td>
+              <td>{{ p.email }}</td>
+              <td>{{ p.specialite }}</td>
+              <td>{{ p.nomDepartement || '-' }}</td>
+            </tr>
+
+            <tr *ngIf="professeurs.length === 0">
+              <td colspan="6">Aucun professeur enregistré.</td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+
+    </div>
+
+  </main>
+</div>

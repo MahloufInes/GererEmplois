@@ -1,0 +1,134 @@
+
+<div class="shell">
+
+  <app-menu></app-menu>
+
+  <main class="content">
+
+    <section class="hero">
+      <div>
+        <h1>Gestion des salles</h1>
+        <p>Consultez et organisez les salles de votre établissement.</p>
+      </div>
+    </section>
+
+    <div class="card">
+
+      <div class="card-header">
+        <h2>Liste des salles</h2>
+
+        <div class="header-actions">
+          <span>Total : {{ salles.length }}</span>
+
+          <button class="btn-add" (click)="ouvrirFormulaire()">
+            <i class="fas fa-plus"></i>
+            Ajouter une salle
+          </button>
+        </div>
+      </div>
+
+      <!-- Formulaire -->
+      <div class="form-card" *ngIf="afficherFormulaire">
+
+        <h3>{{ modeModification ? 'Modifier la salle' : 'Nouvelle salle' }}</h3>
+
+        <div class="form-grid">
+
+          <div class="form-group">
+            <label>Nom de la salle</label>
+            <input type="text"
+                   [(ngModel)]="nouvelleSalle.nom"
+                   placeholder="Ex : A101">
+          </div>
+
+          <div class="form-group">
+            <label>Capacité</label>
+            <input type="number"
+                   [(ngModel)]="nouvelleSalle.capacite"
+                   min="1">
+          </div>
+
+          <div class="form-group">
+            <label>Type de salle</label>
+            <select [(ngModel)]="nouvelleSalle.type">
+              <option value="AMPHI">AMPHI</option>
+              <option value="TD">TD</option>
+              <option value="TP">TP</option>
+            </select>
+          </div>
+
+        </div>
+
+        <div class="form-buttons">
+          <button class="btn-cancel" (click)="fermerFormulaire()">
+            Annuler
+          </button>
+
+          <button class="btn-save" (click)="enregistrerSalle()">
+            {{ modeModification ? 'Enregistrer les modifications' : 'Enregistrer' }}
+          </button>
+        </div>
+
+      </div>
+
+      <p *ngIf="chargement">Chargement...</p>
+
+      <p *ngIf="messageErreur" class="error">
+        {{ messageErreur }}
+      </p>
+
+      <!-- Tableau -->
+      <div class="table-wrap" *ngIf="!chargement && !messageErreur">
+
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nom de salle</th>
+              <th>Capacité</th>
+              <th>Type</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            <tr *ngFor="let salle of salles">
+              <td>{{ salle.id }}</td>
+              <td>{{ salle.nom }}</td>
+              <td>{{ salle.capacite }} places</td>
+
+              <td>
+                <span class="type-badge">{{ salle.type }}</span>
+              </td>
+
+              <td class="actions">
+
+                <button class="btn-edit"
+                        (click)="modifierSalle(salle)">
+                  <i class="fas fa-edit"></i>
+                  Modifier
+                </button>
+
+                <button class="btn-delete"
+                        (click)="supprimerSalle(salle.id)">
+                  <i class="fas fa-trash"></i>
+                  Supprimer
+                </button>
+
+              </td>
+            </tr>
+
+            <tr *ngIf="salles.length === 0">
+              <td colspan="5">Aucune salle enregistrée.</td>
+            </tr>
+
+          </tbody>
+        </table>
+
+      </div>
+
+    </div>
+
+  </main>
+</div>

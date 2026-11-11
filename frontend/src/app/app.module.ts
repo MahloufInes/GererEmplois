@@ -17,6 +17,7 @@ import { CrudDepartementsComponent } from './administrateur/crud-departements/cr
 import { DashboardComponent } from './administrateur/dashboard/dashboard.component';
 import { EnseignantsComponent } from './administrateur/enseignants/enseignants.component';
 import { SallesComponent } from './administrateur/salles/salles.component';
+import { CreneauxHorairesComponent } from './administrateur/creneaux-horaires/creneaux-horaires.component';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { SallesComponent } from './administrateur/salles/salles.component';
     CrudDepartementsComponent,
     DashboardComponent,
     EnseignantsComponent,
-    SallesComponent
+    SallesComponent,
+    CreneauxHorairesComponent
   ],
   imports: [
     BrowserModule,

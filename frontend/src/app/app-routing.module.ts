@@ -9,6 +9,7 @@ import { CrudDepartementsComponent } from './administrateur/crud-departements/cr
 import { DashboardComponent } from './administrateur/dashboard/dashboard.component';
 import { EnseignantsComponent } from './administrateur/enseignants/enseignants.component';
 import { SallesComponent } from './administrateur/salles/salles.component';
+import { CreneauxHorairesComponent } from './administrateur/creneaux-horaires/creneaux-horaires.component';
 
 const routes: Routes = [  
   {path:'',component:LoginComponent},
@@ -19,7 +20,8 @@ const routes: Routes = [
   { path: 'crudDepartements', component: CrudDepartementsComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'enseignants', component: EnseignantsComponent },
-  {path: 'salles', component: SallesComponent}
+  {path: 'salles', component: SallesComponent},
+  {path: 'creneaux-horaires', component: CreneauxHorairesComponent}
 ];
 
 @NgModule({

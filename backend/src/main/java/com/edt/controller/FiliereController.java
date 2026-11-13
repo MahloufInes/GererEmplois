@@ -2,7 +2,7 @@ package com.edt.controller;
 
 import com.edt.dto.FiliereRequest;
 import com.edt.dto.FiliereResponse;
-import com.edt.service.FiliereService;
+import com.edt.Service.FiliereService;
 
 import jakarta.validation.Valid;
 

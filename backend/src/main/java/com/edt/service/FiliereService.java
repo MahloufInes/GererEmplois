@@ -1,4 +1,4 @@
-package com.edt.service;
+package com.edt.Service;
 
 import com.edt.dto.FiliereRequest;
 import com.edt.dto.FiliereResponse;

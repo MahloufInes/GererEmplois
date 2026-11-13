@@ -1,0 +1,119 @@
+
+<div class="shell">
+
+  <app-menu></app-menu>
+
+  <main class="content">
+
+    <section class="hero">
+      <div>
+        <h1>Gestion des départements</h1>
+        <p>Ajoutez et organisez les départements de votre établissement.</p>
+      </div>
+
+      <button class="btn light" (click)="openAdd()">
+        + Ajouter un département
+      </button>
+    </section>
+
+    <section class="stats">
+      <div class="stat-card">
+        <h3>{{ departements.length }}</h3>
+        <p>Total des départements</p>
+      </div>
+    </section>
+
+    <section class="table-card">
+
+      <div class="table-header">
+        <h2>Liste des départements</h2>
+
+        <input
+          type="text"
+          placeholder="Rechercher un département..."
+          [(ngModel)]="search">
+      </div>
+
+      <p *ngIf="chargement">Chargement...</p>
+
+      <p class="error" *ngIf="erreur">{{ erreur }}</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Code</th>
+            <th>Nom du département</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let d of filtered">
+            <td>{{ d.id }}</td>
+            <td>{{ d.code }}</td>
+            <td>{{ d.nom }}</td>
+            <td>
+              <button class="edit" (click)="openEdit(d)">
+                Modifier
+              </button>
+
+              <button class="delete" (click)="supprimer(d)">
+                Supprimer
+              </button>
+            </td>
+          </tr>
+
+          <tr *ngIf="!chargement && filtered.length === 0">
+            <td colspan="4">Aucun département trouvé.</td>
+          </tr>
+        </tbody>
+      </table>
+
+    </section>
+
+  </main>
+</div>
+
+<div class="modal-backdrop" *ngIf="showForm">
+
+  <div class="modal">
+
+    <h2>
+      {{ editingId === null ? 'Ajouter un département' : 'Modifier un département' }}
+    </h2>
+
+    <form (ngSubmit)="save()">
+
+      <label>Code du département</label>
+      <input
+        type="text"
+        name="code"
+        [(ngModel)]="form.code"
+        placeholder="Exemple : INFO"
+        required>
+
+      <label>Nom du département</label>
+      <input
+        type="text"
+        name="nom"
+        [(ngModel)]="form.nom"
+        placeholder="Exemple : Informatique"
+        required>
+
+      <p class="error" *ngIf="erreur">{{ erreur }}</p>
+
+      <div class="actions">
+        <button type="button" class="cancel" (click)="close()">
+          Annuler
+        </button>
+
+        <button type="submit" class="save">
+          Enregistrer
+        </button>
+      </div>
+
+    </form>
+
+  </div>
+</div>

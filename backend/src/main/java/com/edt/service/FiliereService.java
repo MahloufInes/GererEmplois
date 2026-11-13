@@ -29,7 +29,7 @@ public class FiliereService {
     public List<FiliereResponse> afficherToutes() {
         return filiereRepository.findAll()
                 .stream()
-                .map(f -> new FiliereResponse(f.getId(), f.getNom()))
+                .map(this::toResponse)
                 .toList();
     }
 
@@ -42,14 +42,59 @@ public class FiliereService {
 
         Departement departement = departementRepository
                 .findById(request.departementId())
-                .orElseThrow(() -> new RuntimeException("Département introuvable."));
+                .orElseThrow(() ->
+                        new RuntimeException("Département introuvable."));
 
         Filiere filiere = new Filiere();
         filiere.setNom(request.nom());
         filiere.setDepartement(departement);
 
-        Filiere saved = filiereRepository.save(filiere);
+        return toResponse(filiereRepository.save(filiere));
+    }
 
-        return new FiliereResponse(saved.getId(), saved.getNom());
+    @Transactional
+    public FiliereResponse modifier(Long id, FiliereRequest request) {
+
+        Filiere filiere = filiereRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Filière introuvable."));
+
+        if (filiereRepository.existsByNom(request.nom())
+                && !filiere.getNom().equals(request.nom())) {
+            throw new RuntimeException("Cette filière existe déjà.");
+        }
+
+        Departement departement = departementRepository
+                .findById(request.departementId())
+                .orElseThrow(() ->
+                        new RuntimeException("Département introuvable."));
+
+        filiere.setNom(request.nom());
+        filiere.setDepartement(departement);
+
+        return toResponse(filiereRepository.save(filiere));
+    }
+
+    @Transactional
+    public void supprimer(Long id) {
+
+        Filiere filiere = filiereRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Filière introuvable."));
+
+        if (!filiere.getGroupes().isEmpty()) {
+            throw new RuntimeException(
+                    "Impossible de supprimer cette filière : elle possède des groupes.");
+        }
+
+        filiereRepository.delete(filiere);
+    }
+
+    private FiliereResponse toResponse(Filiere filiere) {
+        return new FiliereResponse(
+                filiere.getId(),
+                filiere.getNom(),
+                filiere.getDepartement().getId()
+        );
     }
 }

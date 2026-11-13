@@ -1,0 +1,188 @@
+
+/* ===== STRUCTURE GENERALE ===== */
+.shell {
+  display: flex;
+  min-height: 100vh;
+  background: #f7f6fc;
+}
+
+.content {
+  flex: 1;
+  padding: 35px;
+  min-width: 0;
+  overflow-x: hidden;
+}
+
+/* ===== BANNIERE ===== */
+.hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px 35px;
+  margin-bottom: 30px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #7138b5, #9b65d4);
+  color: white;
+  box-shadow: 0 8px 25px rgba(113, 56, 181, 0.15);
+}
+
+.hero h1 {
+  margin: 0 0 10px;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.hero p {
+  margin: 0;
+  font-size: 14px;
+  color: #eee2ff;
+}
+
+/* ===== CARTE PRINCIPALE ===== */
+.card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 25px;
+  box-shadow: 0 5px 25px rgba(42, 24, 72, 0.06);
+  border: 1px solid #eee9f7;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+}
+
+.card-header h2 {
+  margin: 0;
+  color: #35234f;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.card-header span {
+  background: #f0e8fc;
+  color: #743bb4;
+  padding: 9px 16px;
+  border-radius: 30px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* ===== TABLEAU ===== */
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid #eeeaf5;
+}
+
+table {
+  width: 100%;
+  min-width: 750px;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+thead {
+  background: #f5f0fc;
+}
+
+th {
+  padding: 17px 18px;
+  color: #65418c;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+td {
+  padding: 17px 18px;
+  color: #554b64;
+  font-size: 14px;
+  border-bottom: 1px solid #f0edf5;
+}
+
+tbody tr {
+  transition: background 0.2s ease;
+}
+
+tbody tr:hover {
+  background: #faf7ff;
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* ===== ID ===== */
+td:first-child {
+  color: #8b5bc1;
+  font-weight: 700;
+}
+
+/* ===== EMAIL ===== */
+td:nth-child(4) {
+  color: #746482;
+}
+
+/* ===== MESSAGE ===== */
+.error {
+  padding: 14px 18px;
+  color: #c03952;
+  background: #fff0f2;
+  border-radius: 10px;
+  font-size: 14px;
+}
+
+/* ===== CHARGEMENT ===== */
+.card > p {
+  color: #806b98;
+  font-size: 14px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .content {
+    padding: 18px;
+  }
+
+  .hero {
+    padding: 25px 20px;
+  }
+
+  .hero h1 {
+    font-size: 23px;
+  }
+
+  .card {
+    padding: 18px;
+  }
+
+  .card-header h2 {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .content {
+    padding: 12px;
+  }
+
+  .hero {
+    padding: 22px 16px;
+  }
+
+  .hero h1 {
+    font-size: 20px;
+  }
+
+  .card {
+    padding: 14px;
+  }
+}

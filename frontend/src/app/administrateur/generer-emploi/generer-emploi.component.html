@@ -1,0 +1,141 @@
+
+<div class="shell">
+
+  <app-menu></app-menu>
+
+  <main class="content">
+
+    <div class="page-container">
+
+      <!-- En-tête -->
+      <div class="page-header">
+        <div>
+          <span class="subtitle">EDUPLANNING / ADMINISTRATION</span>
+          <h1>Génération des emplois du temps</h1>
+          <p>
+            Créez automatiquement les emplois du temps
+            en respectant les disponibilités et les contraintes.
+          </p>
+        </div>
+
+        <div class="header-icon">📅</div>
+      </div>
+
+      <!-- Formulaire -->
+      <div class="generation-card">
+
+        <div class="card-title">
+          <div class="title-icon">⚙️</div>
+          <div>
+            <h2>Paramètres de génération</h2>
+            <p>Configurez les informations nécessaires.</p>
+          </div>
+        </div>
+
+        <div class="form-grid">
+
+          <!-- Filière -->
+          <div class="form-group">
+            <label for="filiere">Filière</label>
+
+            <select
+              id="filiere"
+              [(ngModel)]="filiereId"
+              [disabled]="chargementFilieres || generationEnCours">
+
+              <option [ngValue]="null">
+                Sélectionner une filière
+              </option>
+
+              <option
+                *ngFor="let filiere of filieres"
+                [ngValue]="filiere.id">
+                {{ filiere.nom }}
+              </option>
+
+            </select>
+
+            <small *ngIf="chargementFilieres">
+              Chargement des filières...
+            </small>
+          </div>
+
+          <!-- Semestre -->
+          <div class="form-group">
+            <label for="semestre">Semestre</label>
+
+            <select
+              id="semestre"
+              [(ngModel)]="semestre"
+              [disabled]="generationEnCours">
+
+              <option value="S1">Semestre 1</option>
+              <option value="S2">Semestre 2</option>
+              <option value="S3">Semestre 3</option>
+              <option value="S4">Semestre 4</option>
+              <option value="S5">Semestre 5</option>
+              <option value="S6">Semestre 6</option>
+
+            </select>
+          </div>
+
+        </div>
+
+        <!-- Informations -->
+        <div class="info-box">
+          <span>ℹ️</span>
+          <p>
+            La génération prend en compte les disponibilités des
+            enseignants, les salles, les groupes et les créneaux horaires.
+          </p>
+        </div>
+
+        <!-- Bouton -->
+        <button
+          class="generate-btn"
+          (click)="generer()"
+          [disabled]="generationEnCours || chargementFilieres || filieres.length === 0">
+
+          <span *ngIf="!generationEnCours">⚡ Générer l'emploi du temps</span>
+          <span *ngIf="generationEnCours">Génération en cours...</span>
+
+        </button>
+
+        <!-- Erreur -->
+        <div class="alert error" *ngIf="erreur">
+          ⚠️ {{ erreur }}
+        </div>
+
+        <!-- Succès -->
+        <div class="alert success" *ngIf="succes && resultat">
+
+          <div class="success-icon">✓</div>
+
+          <div>
+            <h3>Emploi du temps généré !</h3>
+            <p>{{ succes }}</p>
+
+            <div class="result-details">
+              <span>
+                <strong>ID :</strong> {{ resultat.emploiDuTempsId }}
+              </span>
+
+              <span>
+                <strong>Semestre :</strong> {{ resultat.semestre }}
+              </span>
+
+              <span>
+                <strong>Séances :</strong> {{ resultat.nombreSeances }}
+              </span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+</div>

@@ -1,8 +1,7 @@
-
-package com.edt.Service;
+package com.edt.service;
 
 import com.edt.entity.*;
-import com.edt.DTO.EnseignementDTO;
+import com.edt.dto.EnseignementDTO;
 import com.edt.repository.*;
 
 import lombok.RequiredArgsConstructor;

@@ -1,42 +1,86 @@
- <!-- Menu latéral -->
-  <aside class="sidebar">
-    <div class="brand">
-      <div class="logo">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4h7a3 3 0 0 1 3 3v14a2 2 0 0 0-2-2H2zM22 4h-7a3 3 0 0 0-3 3v14a2 2 0 0 1 2-2h8z"/></svg>
-      </div>
-      <span>EduPlanning</span>
+
+<aside class="sidebar">
+
+  <!-- Logo -->
+  <div class="brand">
+    <div class="logo">
+      <svg width="23" height="23" viewBox="0 0 24 24"
+           fill="none" stroke="currentColor" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round">
+        <path d="M2 4h7a3 3 0 0 1 3 3v14a2 2 0 0 0-2-2H2z"/>
+        <path d="M22 4h-7a3 3 0 0 0-3 3v14a2 2 0 0 1 2-2h8z"/>
+      </svg>
+    </div>
+    <div>
+      <span class="brand-name">EduPlanning</span>
+      <small>Gestion scolaire</small>
+    </div>
+  </div>
+
+  <!-- Menu -->
+  <p class="menu-title">MENU PRINCIPAL</p>
+
+  <nav class="menu-nav">
+
+    <a class="item" routerLink="/dashboard" routerLinkActive="active">
+      <span class="menu-icon">⌂</span>
+      <span>Tableau de bord</span>
+    </a>
+
+    <p class="menu-section">GESTION ACADÉMIQUE</p>
+
+    <a class="item" routerLink="/crudEtud" routerLinkActive="active">
+      <span class="menu-icon">♙</span>
+      <span>Étudiants</span>
+    </a>
+
+    <a class="item" routerLink="/crudDepartements" routerLinkActive="active">
+      <span class="menu-icon">▦</span>
+      <span>Départements</span>
+    </a>
+
+    <a class="item" routerLink="/crudFilieres" routerLinkActive="active">
+      <span class="menu-icon">▤</span>
+      <span>Filières</span>
+    </a>
+
+    <a class="item" routerLink="/crudGroupes" routerLinkActive="active">
+      <span class="menu-icon">♧</span>
+      <span>Groupes</span>
+    </a>
+
+    <p class="menu-section">ORGANISATION</p>
+
+    <a class="item" routerLink="/enseignants" routerLinkActive="active">
+      <span class="menu-icon">♙</span>
+      <span>Enseignants</span>
+    </a>
+
+    <a class="item" routerLink="/salles" routerLinkActive="active">
+      <span class="menu-icon">▣</span>
+      <span>Salles</span>
+    </a>
+
+    <a class="item" routerLink="/emploi" routerLinkActive="active">
+      <span class="menu-icon">▦</span>
+      <span>Emplois du temps</span>
+    </a>
+
+  </nav>
+
+  <!-- Administrateur -->
+  <div class="user">
+    <div class="avatar">AD</div>
+
+    <div class="user-info">
+      <strong>Administrateur</strong>
+      <small>Gestionnaire</small>
     </div>
 
-    <p class="menu-title">Administration</p>
-    <nav>
-  <span class="item">Tableau de bord</span>
-
-  <a class="item"
-     routerLink="/crudEtud"
-     routerLinkActive="active">
-    Étudiants
-  </a>
-
-  <a class="item"
-     routerLink="/crudGroupes"
-     routerLinkActive="active">
-    Groupes
-  </a>
-  <a class="item"
-   routerLink="/crudFilieres"
-   routerLinkActive="active">
-  Filières
-</a>
-  <span class="item">Enseignants</span>
-  <span class="item">Salles</span>
-  <span class="item">Emplois du temps</span>
-</nav>
-
-    <div class="user">
-      <div class="avatar" style="background:#6352c9">AD</div>
-      <div>
-        <strong>Administrateur</strong>
-        <a routerLink="/login">Déconnexion</a>
-      </div>
-    </div>
-  </aside>
+    <button class="logout-btn" (click)="deconnecter()">
+  <i class="fas fa-sign-out-alt"></i>
+  <span>Déconnexion</span>
+</button>
+  </div>
+  
+</aside>

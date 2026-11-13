@@ -1,0 +1,123 @@
+
+<div class="shell">
+
+  <app-menu></app-menu>
+
+  <main class="content">
+
+    <section class="hero">
+      <div>
+        <h1>Gestion des créneaux horaires</h1>
+        <p>Organisez les horaires de votre établissement par jour.</p>
+      </div>
+    </section>
+
+    <div class="card">
+
+      <div class="card-header">
+        <div>
+          <h2>Liste des créneaux horaires</h2>
+          <span>Total : {{ creneaux.length }} créneaux</span>
+        </div>
+
+        <button class="btn-add" (click)="ouvrirFormulaire()">
+          <i class="fas fa-plus"></i>
+          Ajouter un créneau
+        </button>
+      </div>
+
+      <!-- Formulaire -->
+      <div class="form-card" *ngIf="afficherFormulaire">
+
+        <h3>
+          {{ modeModification ? 'Modifier le créneau' : 'Nouveau créneau' }}
+        </h3>
+
+        <div class="form-grid">
+
+          <div class="form-group">
+            <label>Jour</label>
+            <select [(ngModel)]="nouveauCreneau.jour">
+              <option *ngFor="let jour of jours" [value]="jour">
+                {{ jour }}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Heure de début</label>
+            <input type="time" [(ngModel)]="nouveauCreneau.heureDebut">
+          </div>
+
+          <div class="form-group">
+            <label>Heure de fin</label>
+            <input type="time" [(ngModel)]="nouveauCreneau.heureFin">
+          </div>
+
+        </div>
+
+        <div class="form-buttons">
+          <button class="btn-cancel" (click)="fermerFormulaire()">
+            Annuler
+          </button>
+
+          <button class="btn-save" (click)="enregistrerCreneau()">
+            {{ modeModification ? 'Enregistrer les modifications' : 'Enregistrer' }}
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Tableau -->
+      <div class="table-wrap">
+
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Jour</th>
+              <th>Heure de début</th>
+              <th>Heure de fin</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let creneau of creneaux">
+              <td>{{ creneau.id }}</td>
+
+              <td>
+                <span class="jour-badge">{{ creneau.jour }}</span>
+              </td>
+
+              <td>{{ creneau.heureDebut.substring(0, 5) }}</td>
+
+              <td>{{ creneau.heureFin.substring(0, 5) }}</td>
+
+              <td class="actions">
+                <button class="btn-edit"
+                        (click)="modifierCreneau(creneau)">
+                  <i class="fas fa-edit"></i> Modifier
+                </button>
+
+                <button class="btn-delete"
+                        (click)="supprimerCreneau(creneau.id)">
+                  <i class="fas fa-trash"></i> Supprimer
+                </button>
+              </td>
+            </tr>
+
+            <tr *ngIf="creneaux.length === 0">
+              <td colspan="5" class="empty">
+                Aucun créneau horaire enregistré.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+
+    </div>
+
+  </main>
+</div>

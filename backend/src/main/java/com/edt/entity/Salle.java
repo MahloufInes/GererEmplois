@@ -1,11 +1,16 @@
+
 package com.edt.entity;
 
+import com.edt.entity.enums.TypeSalle;
 import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
 @Table(name = "salle")
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Salle {
 
     @Id
@@ -17,7 +22,7 @@ public class Salle {
 
     private Integer capacite;
 
-    /** ex : AMPHI, TD, TP */
-    @Column(length = 30)
-    private String type;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private TypeSalle type;
 }

@@ -3,17 +3,19 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+export type TypeSalle = 'COURS' | 'TP' | 'LABO' | 'AMPHI';
+
 export interface Salle {
   id: number;
   nom: string;
   capacite: number;
-  type: string;
+  type: TypeSalle;
 }
 
 export interface SalleRequest {
   nom: string;
   capacite: number;
-  type: string;
+  type: TypeSalle;
 }
 
 @Injectable({

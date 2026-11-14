@@ -1,0 +1,28 @@
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Angular
+dist/
+.angular/
+.tmp/
+out-tsc/
+
+# Java / Maven
+target/
+*.class
+
+# IntelliJ
+.idea/
+*.iml
+
+# VS Code
+.vscode/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

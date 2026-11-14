@@ -1,7 +1,9 @@
 
 import { Component, OnInit } from '@angular/core';
-import { Salle, SalleService } from '../../services/salle.service';
-
+import { Salle,
+  SalleService,
+  SalleRequest, } from '../../services/salle.service';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-salles',
   templateUrl: './salles.component.html',
@@ -12,6 +14,16 @@ export class SallesComponent implements OnInit {
   salles: Salle[] = [];
   chargement = false;
   messageErreur = '';
+
+  afficherFormulaire = false;
+  modeModification = false;
+  salleIdModifie: number | null = null;
+
+  nouvelleSalle: SalleRequest = {
+  nom: '',
+  capacite: 30,
+  type: 'COURS'
+};
 
   constructor(private salleService: SalleService) {}
 
@@ -36,16 +48,6 @@ export class SallesComponent implements OnInit {
     });
   }
 
-  afficherFormulaire = false;
-  modeModification = false;
-  salleIdModifie: number | null = null;
-
-  nouvelleSalle = {
-    nom: '',
-    capacite: 30,
-    type: 'TD'
-  };
-
   ouvrirFormulaire(): void {
     this.afficherFormulaire = true;
     this.modeModification = false;
@@ -54,7 +56,7 @@ export class SallesComponent implements OnInit {
     this.nouvelleSalle = {
       nom: '',
       capacite: 30,
-      type: 'TD'
+      type: 'COURS'
     };
   }
 
@@ -64,10 +66,18 @@ export class SallesComponent implements OnInit {
 
  
 enregistrerSalle(): void {
+
   if (!this.nouvelleSalle.nom.trim() ||
       this.nouvelleSalle.capacite <= 0 ||
       !this.nouvelleSalle.type) {
-    alert('Veuillez remplir correctement tous les champs.');
+
+    Swal.fire({
+      icon: 'warning',
+      title: 'Attention !',
+      text: 'Veuillez remplir correctement tous les champs.',
+      confirmButtonColor: '#5142a5'
+    });
+
     return;
   }
 
@@ -77,49 +87,95 @@ enregistrerSalle(): void {
 
   operation.subscribe({
     next: () => {
-      alert(this.modeModification
-        ? 'Salle modifiée avec succès !'
-        : 'Salle ajoutée avec succès !');
+
+      Swal.fire({
+        icon: 'success',
+        title: this.modeModification
+          ? 'Salle modifiée !'
+          : 'Salle ajoutée !',
+        text: this.modeModification
+          ? 'Les modifications ont été enregistrées avec succès.'
+          : 'La nouvelle salle a été ajoutée avec succès.',
+        confirmButtonText: 'Parfait !',
+        confirmButtonColor: '#5142a5',
+        timer: 2500,
+        timerProgressBar: true
+      });
 
       this.fermerFormulaire();
       this.chargerSalles();
     },
+
     error: error => {
       console.error(error);
-      alert('Erreur lors de l’enregistrement de la salle.');
+
+      Swal.fire({
+        icon: 'error',
+        title: 'Erreur !',
+        text: 'Impossible d’enregistrer la salle.',
+        confirmButtonColor: '#5142a5'
+      });
     }
   });
 }
 
 
-modifierSalle(salle: Salle): void {
-  this.afficherFormulaire = true;
-  this.modeModification = true;
-  this.salleIdModifie = salle.id;
+  modifierSalle(salle: Salle): void {
 
-  this.nouvelleSalle = {
-    nom: salle.nom,
-    capacite: salle.capacite,
-    type: salle.type
-  };
-}
+    this.afficherFormulaire = true;
+    this.modeModification = true;
+    this.salleIdModifie = salle.id;
 
-supprimerSalle(id: number): void {
-  const confirmation = confirm('Voulez-vous vraiment supprimer cette salle ?');
-
-  if (confirmation) {
-    this.salleService.supprimer(id).subscribe({
-      next: () => {
-        alert('Salle supprimée avec succès !');
-        this.chargerSalles();
-      },
-      error: error => {
-        console.error(error);
-        alert('Impossible de supprimer cette salle.');
-      }
-    });
+    this.nouvelleSalle = {
+      nom: salle.nom,
+      capacite: salle.capacite,
+      type: salle.type
+    };
   }
-}
 
+  
+supprimerSalle(id: number): void {
+
+  Swal.fire({
+    title: 'Supprimer cette salle ?',
+    text: 'Cette action est irréversible.',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#dc3545',
+    cancelButtonColor: '#6c757d',
+    confirmButtonText: 'Oui, supprimer',
+    cancelButtonText: 'Annuler'
+  }).then(result => {
+
+    if (result.isConfirmed) {
+
+      this.salleService.supprimer(id).subscribe({
+        next: () => {
+
+          Swal.fire({
+            icon: 'success',
+            title: 'Salle supprimée !',
+            text: 'La salle a été supprimée avec succès.',
+            confirmButtonColor: '#5142a5'
+          });
+
+          this.chargerSalles();
+        },
+
+        error: error => {
+          console.error(error);
+
+          Swal.fire({
+            icon: 'error',
+            title: 'Erreur !',
+            text: 'Impossible de supprimer cette salle.',
+            confirmButtonColor: '#5142a5'
+          });
+        }
+      });
+
+    }
+  });
+}
 
 }

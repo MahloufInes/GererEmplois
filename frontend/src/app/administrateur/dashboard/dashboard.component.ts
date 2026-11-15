@@ -12,10 +12,12 @@ export class DashboardComponent implements OnInit {
   nombreEtudiants = 0;
   nombreFilieres = 0;
   nombreGroupes = 0;
+  nombreEnseignants = 0;
 
   private apiEtudiants = 'http://localhost:8081/api/etudiants';
   private apiFilieres = 'http://localhost:8081/api/filieres';
   private apiGroupes = 'http://localhost:8081/api/groupes';
+  private apiEnseignants = 'http://localhost:8081/api/professeurs/count';
 
   constructor(private http: HttpClient) {}
 
@@ -23,6 +25,7 @@ export class DashboardComponent implements OnInit {
     this.chargerNombreEtudiants();
     this.chargerNombreFilieres();
     this.chargerNombreGroupes();
+    this.chargerNombreEnseignants();
   }
 
   chargerNombreEtudiants(): void {
@@ -43,6 +46,13 @@ export class DashboardComponent implements OnInit {
     this.http.get<any[]>(this.apiGroupes).subscribe({
       next: data => this.nombreGroupes = data.length,
       error: error => console.error('Erreur groupes', error)
+    });
+  }
+
+  chargerNombreEnseignants(): void {
+    this.http.get<number>(this.apiEnseignants).subscribe({
+      next: data => this.nombreEnseignants = data,
+      error: error => console.error('Erreur enseignants', error)
     });
   }
 }

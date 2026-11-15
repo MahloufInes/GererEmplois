@@ -131,6 +131,88 @@
           </div>
 
         </div>
+        <p *ngIf="chargementSeances">Chargement de l'emploi du temps...</p>
+
+
+<!-- Emploi du temps par groupe -->
+
+<!-- Emploi du temps par groupe -->
+<div class="table-wrap" *ngFor="let g of seancesParGroupe">
+
+  <h3>Emploi du temps — Groupe {{ g[0] }}</h3>
+
+  <div class="edt-scroll">
+
+    <table class="edt-table">
+
+      <thead>
+        <tr>
+          <th class="day-header">Jour</th>
+
+          <th *ngFor="let horaire of horaires">
+            {{ horaire.debut }} - {{ horaire.fin }}
+          </th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr *ngFor="let jour of jours">
+
+          <th class="day-cell">
+            {{ jour }}
+          </th>
+
+          <td *ngFor="let horaire of horaires"
+              class="session-cell">
+
+            <ng-container
+              *ngIf="trouverSeance(g[1], jour, horaire) as seance;
+                     else celluleVide">
+
+              <div
+                class="session-card"
+                [ngClass]="afficherType(seance.type) === 'TP'
+                  ? 'tp'
+                  : 'cours'">
+
+                <strong class="subject-name">
+                  {{ seance.matiereNom }}
+                </strong>
+
+                <span class="session-type">
+                  {{ afficherType(seance.type) }}
+                </span>
+
+                <span class="professor-name">
+                  {{ seance.professeurNom }}
+                </span>
+
+                <span class="room-name">
+                  Salle : {{ seance.salleNom }}
+                </span>
+
+              </div>
+
+            </ng-container>
+
+            <ng-template #celluleVide>
+              <div class="empty-cell">—</div>
+            </ng-template>
+
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>
+
+
 
       </div>
 

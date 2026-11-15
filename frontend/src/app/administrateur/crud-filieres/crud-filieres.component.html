@@ -35,14 +35,14 @@
       </div>
 
       <p *ngIf="chargement">Chargement...</p>
-
-      <p class="error" *ngIf="erreur">{{ erreur }}</p>
+      <p class="error" *ngIf="erreur && !showForm">{{ erreur }}</p>
 
       <table>
         <thead>
           <tr>
             <th>ID</th>
             <th>Nom de la filière</th>
+            <th>Nombre de matières</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -51,6 +51,7 @@
           <tr *ngFor="let f of filtered">
             <td>{{ f.id }}</td>
             <td>{{ f.nom }}</td>
+            <td>{{ f.matieres?.length || 0 }}</td>
             <td>
               <button class="edit" (click)="openEdit(f)">
                 Modifier
@@ -63,7 +64,7 @@
           </tr>
 
           <tr *ngIf="!chargement && filtered.length === 0">
-            <td colspan="3">Aucune filière trouvée.</td>
+            <td colspan="4">Aucune filière trouvée.</td>
           </tr>
         </tbody>
       </table>
@@ -73,9 +74,10 @@
   </main>
 </div>
 
+<!-- FORMULAIRE -->
 <div class="modal-backdrop" *ngIf="showForm">
 
-  <div class="modal">
+  <div class="modal modal-large">
 
     <h2>
       {{ editingId === null ? 'Ajouter une filière' : 'Modifier une filière' }}
@@ -83,14 +85,19 @@
 
     <form (ngSubmit)="save()">
 
+      <!-- NOM -->
       <label>Nom de la filière</label>
+
       <input
         type="text"
         name="nom"
         [(ngModel)]="form.nom"
+        placeholder="Exemple : Développement des systèmes informatiques"
         required>
 
+      <!-- DEPARTEMENT -->
       <label>Département</label>
+
       <select
         name="departementId"
         [(ngModel)]="form.departementId"
@@ -108,16 +115,138 @@
 
       </select>
 
-      <p class="error" *ngIf="erreur">{{ erreur }}</p>
+      <!-- MATIERES -->
+      <div class="matieres-section">
 
+        <h3>Programme de la filière</h3>
+
+        <p class="subtitle">
+          Ajoutez les matières et associez chacune à un semestre.
+          Une même matière peut apparaître dans plusieurs semestres.
+        </p>
+
+        <div *ngIf="matieresDisponibles.length === 0" class="empty">
+          Aucune matière disponible. Ajoutez d'abord des matières.
+        </div>
+
+        <!-- LISTE DES MATIERES DISPONIBLES -->
+        <div class="matiere-list">
+
+          <div
+            class="matiere-item"
+            *ngFor="let m of matieresDisponibles">
+
+            <div class="matiere-header">
+
+              <strong>{{ m.nom }}</strong>
+
+              <button
+                type="button"
+                class="edit"
+                (click)="ajouterAssociation(m.id)">
+                + Ajouter
+              </button>
+
+            </div>
+
+            <!-- ASSOCIATIONS DE CETTE MATIERE -->
+            <div
+              class="association-card"
+              *ngFor="let association of getAssociations(m.id); let i = index">
+
+              <div class="association-header">
+                <strong>
+                  {{ m.nom }} — Association {{ i + 1 }}
+                </strong>
+
+                <button
+                  type="button"
+                  class="delete"
+                  (click)="supprimerAssociation(association)">
+                  Supprimer
+                </button>
+              </div>
+
+              <div class="hours-inputs">
+
+                <!-- SEMESTRE -->
+                <div>
+                  <label>Semestre</label>
+
+                  <select
+                    [ngModel]="association.semestre"
+                    [ngModelOptions]="{standalone: true}"
+                    (ngModelChange)="modifierSemestre(association, $event)">
+
+                    <option
+                      *ngFor="let s of semestresDisponibles"
+                      [value]="s">
+                      {{ s }}
+                    </option>
+
+                  </select>
+                </div>
+
+                <!-- HEURES COURS -->
+                <div>
+                  <label>Heures cours / semaine</label>
+
+                  <input
+                    type="number"
+                    min="0"
+                    step="0.5"
+                    [ngModel]="association.heuresCours"
+                    [ngModelOptions]="{standalone: true}"
+                    (ngModelChange)="modifierHeures(association, 'heuresCours', $event)">
+                </div>
+
+                <!-- HEURES TP -->
+                <div>
+                  <label>Heures TP / semaine</label>
+
+                  <input
+                    type="number"
+                    min="0"
+                    step="0.5"
+                    [ngModel]="association.heuresTP"
+                    [ngModelOptions]="{standalone: true}"
+                    (ngModelChange)="modifierHeures(association, 'heuresTP', $event)">
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <p class="selected-count">
+          {{ matieresSelectionnees.length }}
+          association(s) matière-semestre sélectionnée(s)
+        </p>
+
+      </div>
+
+      <!-- ERREUR -->
+      <p class="error" *ngIf="erreur">
+        {{ erreur }}
+      </p>
+
+      <!-- ACTIONS -->
       <div class="actions">
-        <button type="button" class="cancel" (click)="close()">
+
+        <button
+          type="button"
+          class="cancel"
+          (click)="close()">
           Annuler
         </button>
 
         <button type="submit" class="save">
           Enregistrer
         </button>
+
       </div>
 
     </form>

@@ -19,10 +19,12 @@ import { EnseignantsComponent } from './administrateur/enseignants/enseignants.c
 import { SallesComponent } from './administrateur/salles/salles.component';
 import { CreneauxHorairesComponent } from './administrateur/creneaux-horaires/creneaux-horaires.component';
 import { GenererEmploiComponent } from './administrateur/generer-emploi/generer-emploi.component';
+import { MatieresComponent } from './matieres/matieres.component';
 
 
 @NgModule({
   declarations: [
+     
     AppComponent,
     LoginComponent,
     CrudEtudiantComponent,
@@ -36,7 +38,8 @@ import { GenererEmploiComponent } from './administrateur/generer-emploi/generer-
     EnseignantsComponent,
     SallesComponent,
     CreneauxHorairesComponent,
-    GenererEmploiComponent
+    GenererEmploiComponent,
+    MatieresComponent
   ],
   imports: [
     BrowserModule,
@@ -44,7 +47,8 @@ import { GenererEmploiComponent } from './administrateur/generer-emploi/generer-
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    
   ],
   providers: [],
   bootstrap: [AppComponent]

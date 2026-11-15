@@ -4,5 +4,6 @@ public enum TypeSalle {
     COURS,
     TP,
     LABO,
-    AMPHI
+    AMPHI,
+    TD
 }

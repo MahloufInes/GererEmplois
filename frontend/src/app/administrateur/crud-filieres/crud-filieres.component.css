@@ -257,13 +257,18 @@ tbody tr:hover {
   box-shadow: 0 24px 60px rgba(34, 31, 58, .3);
 }
 
+/* Modal plus large pour les matières */
+.modal-large {
+  max-width: 850px;
+}
+
 .modal h2 {
   font-size: 20px;
   color: #4b3bb0;
   margin-bottom: 24px;
 }
 
-.modal label {
+.modal form > label {
   display: block;
   font-size: 13px;
   font-weight: 600;
@@ -271,8 +276,8 @@ tbody tr:hover {
   color: #37334b;
 }
 
-.modal input,
-.modal select {
+.modal form > input,
+.modal form > select {
   width: 100%;
   height: 48px;
   padding: 0 14px;
@@ -285,13 +290,119 @@ tbody tr:hover {
   background: #fff;
 }
 
-.modal input:focus,
-.modal select:focus {
+.modal form > input:focus,
+.modal form > select:focus {
   border-color: #6352c9;
   box-shadow: 0 0 0 3px rgba(99, 82, 201, .15);
 }
 
-/* ---------- Boutons modal ---------- */
+
+/* Liste des matières */
+.matiere-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.matiere-item {
+  padding: 16px;
+  background: #fff;
+  border: 1px solid #e2daf5;
+  border-radius: 12px;
+  transition: .2s;
+}
+
+.matiere-item:has(.association-card) {
+  border-color: #8a7bdc;
+  box-shadow: 0 3px 10px rgba(75, 59, 176, .08);
+}
+
+/* En-tête matière */
+.matiere-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.matiere-header strong {
+  color: #37334b;
+  font-size: 14px;
+}
+
+/* Association matière-semestre */
+.association-card {
+  margin-top: 14px;
+  padding: 16px;
+  background: #f8f6fd;
+  border: 1px solid #e2daf5;
+  border-radius: 12px;
+}
+
+.association-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.association-header strong {
+  color: #4b3bb0;
+  font-size: 13px;
+}
+
+/* Champs semestre et heures */
+.hours-inputs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.hours-inputs > div {
+  min-width: 0;
+}
+
+.hours-inputs label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: #77718f;
+  margin-bottom: 8px;
+}
+
+.modal .hours-inputs input,
+.modal .hours-inputs select {
+  width: 100%;
+  height: 42px;
+  margin: 0;
+  padding: 0 12px;
+  border: 1px solid #d3c9ee;
+  border-radius: 9px;
+  font: inherit;
+  font-size: 14px;
+  background: #fff;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.modal .hours-inputs input:focus,
+.modal .hours-inputs select:focus {
+  border-color: #6352c9;
+  box-shadow: 0 0 0 3px rgba(99, 82, 201, .12);
+}
+
+/* Compteur */
+.selected-count {
+  margin-top: 18px;
+  color: #4b3bb0;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: right;
+}
+
+/* Boutons modal */
 .actions {
   display: flex;
   justify-content: flex-end;
@@ -324,6 +435,73 @@ tbody tr:hover {
 .save:hover {
   background: #3d2f96;
 }
+
+/* Responsive */
+@media (max-width: 900px) {
+  .content {
+    padding: 20px 16px 40px;
+  }
+
+  .hero {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 24px;
+  }
+
+  .stats {
+    grid-template-columns: 1fr;
+  }
+
+  .hours-inputs {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .shell {
+    grid-template-columns: 1fr;
+  }
+
+  .table-header {
+    align-items: stretch;
+  }
+
+  .table-header input {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .table-card {
+    overflow-x: auto;
+  }
+
+  table {
+    min-width: 550px;
+  }
+
+  .modal {
+    padding: 22px;
+  }
+
+  .modal-large {
+    max-height: 95vh;
+  }
+
+  .matieres-section {
+    padding: 14px;
+  }
+
+  .hours-inputs {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .matiere-header,
+  .association-header {
+    align-items: flex-start;
+  }
+}
+
 
 /* ---------- Responsive ---------- */
 @media (max-width: 900px) {
@@ -366,5 +544,18 @@ tbody tr:hover {
 
   .modal {
     padding: 22px;
+  }
+
+  .modal-large {
+    max-height: 95vh;
+  }
+
+  .matieres-section {
+    padding: 14px;
+  }
+
+  .hours-inputs {
+    grid-template-columns: 1fr;
+    gap: 10px;
   }
 }

@@ -2,7 +2,7 @@
 package com.edt.controller;
 
 import com.edt.dto.EnseignementDTO;
-import com.edt.service.EnseignementService;
+import com.edt.Service.EnseignementService;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -60,6 +60,17 @@ public class EnseignementController {
             @PathVariable Long filiereId) {
 
         return enseignementService.getByFiliere(filiereId);
+    }
+
+    // GET ALL ELIGIBLE PROFESSORS FOR A SUBJECT IN A FILIERE
+    @GetMapping("/matiere/{matiereId}/filiere/{filiereId}")
+    public List<EnseignementDTO> getByMatiereAndFiliere(
+            @PathVariable Long matiereId,
+            @PathVariable Long filiereId) {
+
+        return enseignementService.getByMatiereAndFiliere(
+                matiereId, filiereId
+        );
     }
 
     // UPDATE HOURS

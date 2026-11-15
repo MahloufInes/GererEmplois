@@ -1,3 +1,4 @@
+
 package com.edt.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -5,11 +6,16 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "groupe")
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Groupe {
 
     @Id
@@ -26,11 +32,21 @@ public class Groupe {
     @JsonIgnore
     private Filiere filiere;
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(
+            name = "groupe_semestre",
+            joinColumns = @JoinColumn(name = "groupe_id"),
+            uniqueConstraints = @UniqueConstraint(
+                    columnNames = {"groupe_id", "semestre"}
+            )
+    )
+    @Column(name = "semestre", nullable = false, length = 2)
+    private Set<String> semestres = new HashSet<>();
+
     @JsonIgnore
     @OneToMany(mappedBy = "groupe")
     private List<Etudiant> etudiants = new ArrayList<>();
 
-    /** Seance 0..* --- destinee a --- 1 Groupe */
     @JsonIgnore
     @OneToMany(mappedBy = "groupe")
     private List<Seance> seances = new ArrayList<>();

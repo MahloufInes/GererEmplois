@@ -23,27 +23,31 @@ public class FiliereController {
         this.filiereService = filiereService;
     }
 
+    // GET: Display all filieres
     @GetMapping
     public List<FiliereResponse> afficherToutes() {
         return filiereService.afficherToutes();
     }
 
+    // POST: Add a new filiere with its matieres
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public FiliereResponse ajouter(
             @Valid @RequestBody FiliereRequest request) {
+
         return filiereService.ajouter(request);
     }
 
-    // MODIFIER UNE FILIERE
+    // PUT: Modify a filiere and its matieres
     @PutMapping("/{id}")
     public FiliereResponse modifier(
             @PathVariable Long id,
             @Valid @RequestBody FiliereRequest request) {
+
         return filiereService.modifier(id, request);
     }
 
-    // SUPPRIMER UNE FILIERE
+    // DELETE: Delete a filiere
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void supprimer(@PathVariable Long id) {

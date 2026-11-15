@@ -11,6 +11,7 @@ import { EnseignantsComponent } from './administrateur/enseignants/enseignants.c
 import { SallesComponent } from './administrateur/salles/salles.component';
 import { CreneauxHorairesComponent } from './administrateur/creneaux-horaires/creneaux-horaires.component';
 import { GenererEmploiComponent } from './administrateur/generer-emploi/generer-emploi.component';
+import { MatieresComponent } from './matieres/matieres.component';
 
 const routes: Routes = [  
   {path:'',component:LoginComponent},
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: 'crud_Adm', component: CrudSousAdminComponent },
   { path: 'crudGroupes', component: CrudGroupesComponent },
   { path: 'crudFilieres', component: CrudFilieresComponent },
+  { path: 'crudMatiers', component: MatieresComponent },
   { path: 'crudDepartements', component: CrudDepartementsComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'enseignants', component: EnseignantsComponent },

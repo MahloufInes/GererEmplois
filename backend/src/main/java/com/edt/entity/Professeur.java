@@ -31,7 +31,7 @@ public class Professeur extends Utilisateur {
     /** Professeur 1 --- declare --- 0..* Indisponibilite */
     @JsonIgnore
     @OneToMany(mappedBy = "professeur", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Indisponibilite> indisponibilites = new ArrayList<>();
+    private List<Disponibilite> disponibilites = new ArrayList<>();
 
     /** Seance 0..* --- assuree par --- 1 Professeur */
     @JsonIgnore

@@ -1,4 +1,4 @@
-package com.edt.service;
+package com.edt.Service;
 
 import com.edt.dto.GroupeRequest;
 import com.edt.dto.GroupeResponse;

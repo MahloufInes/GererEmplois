@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
-
+import com.edt.entity.enums.TypeSeance;
 @Entity
 @Table(name = "seance")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
@@ -18,9 +18,14 @@ public class Seance {
 
     private LocalDate date;
 
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private StatutSeance statut = StatutSeance.PLANIFIEE;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20)
+    private TypeSeance type;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "emploi_du_temps_id", nullable = false)

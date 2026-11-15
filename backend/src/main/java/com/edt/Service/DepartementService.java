@@ -1,5 +1,5 @@
 
-package com.edt.service;
+package com.edt.Service;
 
 import com.edt.dto.DepartementRequest;
 import com.edt.dto.DepartementResponse;
@@ -59,6 +59,7 @@ public class DepartementService {
 
         return toResponse(departementRepository.save(departement));
     }
+
 
     @Transactional
     public void supprimer(Long id) {

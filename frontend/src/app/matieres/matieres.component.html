@@ -1,0 +1,144 @@
+<div class="shell">
+
+  <app-menu></app-menu>
+
+  <main class="content">
+
+    <!-- En-tête -->
+    <section class="hero">
+      <div>
+        <h1>Gestion des matières</h1>
+        <p>Ajoutez et organisez les matières de votre établissement.</p>
+      </div>
+
+      <button class="btn light" (click)="openAdd()">
+        + Ajouter une matière
+      </button>
+    </section>
+
+    <!-- Statistiques -->
+    <section class="stats">
+      <div class="stat-card">
+        <h3>{{ matieres.length }}</h3>
+        <p>Total des matières</p>
+      </div>
+    </section>
+
+    <!-- Tableau des matières -->
+    <section class="table-card">
+
+      <div class="table-header">
+        <h2>Liste des matières</h2>
+
+        <input
+          type="text"
+          placeholder="Rechercher une matière..."
+          [(ngModel)]="search">
+      </div>
+
+      <p *ngIf="chargement">Chargement...</p>
+
+      <p class="error" *ngIf="erreur && !showForm">
+        {{ erreur }}
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nom de la matière</th>
+            <th>Département</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let m of filtered">
+            <td>{{ m.id }}</td>
+            <td>{{ m.nom }}</td>
+            <td>{{ m.departementNom || 'Non défini' }}</td>
+
+            <td>
+              <button class="edit" (click)="openEdit(m)">
+                Modifier
+              </button>
+
+              <button class="delete" (click)="supprimer(m)">
+                Supprimer
+              </button>
+            </td>
+          </tr>
+
+          <tr *ngIf="!chargement && filtered.length === 0">
+            <td colspan="4">Aucune matière trouvée.</td>
+          </tr>
+        </tbody>
+      </table>
+
+    </section>
+
+  </main>
+</div>
+
+<!-- Fenêtre modale Ajouter / Modifier -->
+<div class="modal-backdrop" *ngIf="showForm">
+
+  <div class="modal">
+
+    <h2>
+      {{ editingId === null ? 'Ajouter une matière' : 'Modifier une matière' }}
+    </h2>
+
+    <form (ngSubmit)="save()">
+
+      <label>Nom de la matière</label>
+
+      <input
+        type="text"
+        name="nom"
+        placeholder="Exemple : Java, Python, SQL..."
+        [(ngModel)]="form.nom"
+        required>
+
+      <label>Département</label>
+
+      <select
+        name="departementId"
+        [(ngModel)]="form.departementId"
+        required>
+
+        <option [ngValue]="0" disabled>
+          Choisir un département
+        </option>
+
+        <option
+          *ngFor="let d of departements"
+          [ngValue]="d.id">
+          {{ d.nom }}
+        </option>
+
+      </select>
+
+      <p class="error" *ngIf="erreur">
+        {{ erreur }}
+      </p>
+
+      <div class="actions">
+
+        <button
+          type="button"
+          class="cancel"
+          (click)="close()">
+          Annuler
+        </button>
+
+        <button type="submit" class="save">
+          Enregistrer
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+</div>

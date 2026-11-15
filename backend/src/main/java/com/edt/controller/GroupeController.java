@@ -3,7 +3,7 @@ package com.edt.controller;
 
 import com.edt.dto.GroupeRequest;
 import com.edt.dto.GroupeResponse;
-import com.edt.service.GroupeService;
+import com.edt.Service.GroupeService;
 
 import jakarta.validation.Valid;
 

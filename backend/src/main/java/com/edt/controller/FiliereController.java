@@ -1,3 +1,4 @@
+
 package com.edt.controller;
 
 import com.edt.dto.FiliereRequest;
@@ -32,5 +33,20 @@ public class FiliereController {
     public FiliereResponse ajouter(
             @Valid @RequestBody FiliereRequest request) {
         return filiereService.ajouter(request);
+    }
+
+    // MODIFIER UNE FILIERE
+    @PutMapping("/{id}")
+    public FiliereResponse modifier(
+            @PathVariable Long id,
+            @Valid @RequestBody FiliereRequest request) {
+        return filiereService.modifier(id, request);
+    }
+
+    // SUPPRIMER UNE FILIERE
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void supprimer(@PathVariable Long id) {
+        filiereService.supprimer(id);
     }
 }

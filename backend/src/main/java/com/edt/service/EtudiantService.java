@@ -34,7 +34,9 @@ public class EtudiantService {
 
     @Transactional
     public EtudiantResponse ajouter(EtudiantRequest request) {
-
+        if (request.motDePasse() == null || request.motDePasse().isBlank()) {
+            throw new RuntimeException("Le mot de passe est obligatoire.");
+        }
         if (etudiantRepository.findByEmail(request.email()).isPresent()) {
             throw new RuntimeException("Cet email existe déjà.");
         }
@@ -60,7 +62,55 @@ public class EtudiantService {
 
         return convertir(saved);
     }
+    @Transactional
+    public EtudiantResponse modifier(Long id, EtudiantRequest request) {
 
+        Etudiant e = etudiantRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Étudiant introuvable."));
+
+        // Vérifier si l'email appartient à un autre étudiant
+        etudiantRepository.findByEmail(request.email())
+                .filter(existant -> !existant.getId().equals(id))
+                .ifPresent(existant -> {
+                    throw new RuntimeException("Cet email existe déjà.");
+                });
+
+        // Vérifier si le matricule appartient à un autre étudiant
+        etudiantRepository.findByMatricule(request.matricule())
+                .filter(existant -> !existant.getId().equals(id))
+                .ifPresent(existant -> {
+                    throw new RuntimeException("Ce matricule existe déjà.");
+                });
+
+        Groupe groupe = groupeRepository.findById(request.groupeId())
+                .orElseThrow(() ->
+                        new RuntimeException("Groupe introuvable."));
+
+        e.setNom(request.nom());
+        e.setPrenom(request.prenom());
+        e.setEmail(request.email());
+        e.setMatricule(request.matricule());
+        e.setGroupe(groupe);
+
+        // Modifier le mot de passe uniquement s'il est renseigné
+        if (request.motDePasse() != null
+                && !request.motDePasse().isBlank()) {
+            e.setMotDePasse(passwordEncoder.encode(request.motDePasse()));
+        }
+
+        return convertir(etudiantRepository.save(e));
+    }
+
+    @Transactional
+    public void supprimer(Long id) {
+
+        Etudiant e = etudiantRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Étudiant introuvable."));
+
+        etudiantRepository.delete(e);
+    }
     @Transactional(readOnly = true)
     public List<EtudiantResponse> afficherTous() {
         return etudiantRepository.findAll()

@@ -31,8 +31,22 @@ public class EtudiantController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public EtudiantResponse ajouter(
-            @Valid @RequestBody EtudiantRequest request
-    ) {
+            @Valid @RequestBody EtudiantRequest request) {
         return etudiantService.ajouter(request);
+    }
+
+    // MODIFIER UN ETUDIANT
+    @PutMapping("/{id}")
+    public EtudiantResponse modifier(
+            @PathVariable Long id,
+            @Valid @RequestBody EtudiantRequest request) {
+        return etudiantService.modifier(id, request);
+    }
+
+    // SUPPRIMER UN ETUDIANT
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void supprimer(@PathVariable Long id) {
+        etudiantService.supprimer(id);
     }
 }

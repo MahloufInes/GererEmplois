@@ -1,10 +1,11 @@
 
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
+import Swal from 'sweetalert2';
 interface Filiere {
   id: number;
   nom: string;
+  departementId: number;
 }
 
 interface Departement {
@@ -88,69 +89,124 @@ export class CrudFilieresComponent implements OnInit {
     this.showForm = true;
   }
 
-  openEdit(filiere: Filiere): void {
-    this.editingId = filiere.id;
-    this.form = {
-      nom: filiere.nom,
-      departementId: 0
-    };
-    this.erreur = '';
-    this.showForm = true;
-  }
+openEdit(filiere: Filiere): void {
+  console.log('Filière sélectionnée :', filiere);
+
+  this.editingId = filiere.id;
+
+  this.form = {
+    nom: filiere.nom,
+    departementId: filiere.departementId
+  };
+
+  console.log('Formulaire :', this.form);
+
+  this.erreur = '';
+  this.showForm = true;
+}
 
   save(): void {
-    if (!this.form.nom.trim() || this.form.departementId <= 0) {
-      this.erreur = 'Veuillez remplir tous les champs.';
-      return;
-    }
-
-    const request = {
-      nom: this.form.nom.trim(),
-      departementId: this.form.departementId
-    };
-
-    if (this.editingId === null) {
-      this.http.post(this.apiFilieres, request).subscribe({
-        next: () => {
-          this.close();
-          this.chargerFilieres();
-        },
-        error: err => {
-          console.error(err);
-          this.erreur = err.error?.message || 'Erreur lors de l’ajout.';
-        }
-      });
-    } else {
-      this.http.put(
-        `${this.apiFilieres}/${this.editingId}`,
-        request
-      ).subscribe({
-        next: () => {
-          this.close();
-          this.chargerFilieres();
-        },
-        error: err => {
-          console.error(err);
-          this.erreur = err.error?.message || 'Erreur lors de la modification.';
-        }
-      });
-    }
+  if (!this.form.nom.trim() || this.form.departementId <= 0) {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Champs obligatoires',
+      text: 'Veuillez remplir tous les champs.',
+      confirmButtonColor: '#5142a5'
+    });
+    return;
   }
 
-  supprimer(filiere: Filiere): void {
-    if (!confirm(`Voulez-vous supprimer la filière ${filiere.nom} ?`)) {
-      return;
-    }
+  const request = {
+    nom: this.form.nom.trim(),
+    departementId: this.form.departementId
+  };
 
-    this.http.delete(`${this.apiFilieres}/${filiere.id}`).subscribe({
-      next: () => this.chargerFilieres(),
+  if (this.editingId === null) {
+    this.http.post(this.apiFilieres, request).subscribe({
+      next: () => {
+        this.close();
+        this.chargerFilieres();
+
+        Swal.fire({
+          icon: 'success',
+          title: 'Filière ajoutée !',
+          text: 'La filière a été ajoutée avec succès.',
+          confirmButtonColor: '#5142a5'
+        });
+      },
       error: err => {
-        console.error(err);
-        this.erreur = err.error?.message ||
-          'Impossible de supprimer cette filière.';
+        Swal.fire({
+          icon: 'error',
+          title: 'Erreur',
+          text: err.error?.message || 'Erreur lors de l’ajout.',
+          confirmButtonColor: '#5142a5'
+        });
+      }
+    });
+  } else {
+    this.http.put(
+      `${this.apiFilieres}/${this.editingId}`,
+      request
+    ).subscribe({
+      next: () => {
+        this.close();
+        this.chargerFilieres();
+
+        Swal.fire({
+          icon: 'success',
+          title: 'Modification réussie !',
+          text: 'La filière a été modifiée avec succès.',
+          confirmButtonColor: '#5142a5'
+        });
+      },
+      error: err => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Erreur',
+          text: err.error?.message || 'Erreur lors de la modification.',
+          confirmButtonColor: '#5142a5'
+        });
       }
     });
   }
+}
+
+  supprimer(filiere: Filiere): void {
+  Swal.fire({
+    title: 'Êtes-vous sûre ?',
+    text: `Voulez-vous supprimer la filière ${filiere.nom} ?`,
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#6c757d',
+    confirmButtonText: 'Oui, supprimer',
+    cancelButtonText: 'Annuler'
+  }).then(result => {
+    if (result.isConfirmed) {
+      this.http.delete(`${this.apiFilieres}/${filiere.id}`).subscribe({
+        next: () => {
+          this.chargerFilieres();
+
+          Swal.fire({
+            icon: 'success',
+            title: 'Supprimée !',
+            text: 'La filière a été supprimée.',
+            confirmButtonColor: '#5142a5'
+          });
+        },
+        error: err => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Impossible de supprimer',
+            text: err.error?.message ||
+              'Cette filière ne peut pas être supprimée.',
+            confirmButtonColor: '#5142a5'
+          });
+        }
+      });
+    }
+  });
+}
 
   close(): void {
     this.showForm = false;

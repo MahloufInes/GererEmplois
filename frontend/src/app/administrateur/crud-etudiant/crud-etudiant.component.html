@@ -104,9 +104,22 @@
               </td>
 
               <td class="right">
-                <button class="icon" title="Modifier" disabled>✏️</button>
-                <button class="icon del" title="Supprimer" disabled>🗑️</button>
-              </td>
+  <button
+    type="button"
+    class="icon"
+    title="Modifier"
+    (click)="openEdit(e)">
+    ✏️
+  </button>
+
+  <button
+    type="button"
+    class="icon del"
+    title="Supprimer"
+    (click)="supprimer(e)">
+    🗑️
+  </button>
+</td>
             </tr>
 
             <tr *ngIf="filtered.length === 0 && !loading">
@@ -139,7 +152,7 @@
       <div class="modal">
 
         <div class="modal-head">
-          <h2>Ajouter un étudiant</h2>
+          <h2>{{ editingId === null ? 'Ajouter un étudiant' : 'Modifier un étudiant' }}</h2>
           <button class="close" type="button" (click)="close()">✕</button>
         </div>
 
@@ -205,8 +218,8 @@
             </button>
 
             <button type="submit" class="btn primary">
-              Ajouter
-            </button>
+  {{ editingId === null ? 'Ajouter' : 'Enregistrer les modifications' }}
+</button>
           </div>
 
         </form>

@@ -8,7 +8,7 @@ public record EtudiantRequest(
         @NotBlank String nom,
         @NotBlank String prenom,
         @Email @NotBlank String email,
-        @NotBlank String motDePasse,
+        String motDePasse,
         @NotBlank String matricule,
         @NotNull Long groupeId
 ) {}

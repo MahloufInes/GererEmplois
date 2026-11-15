@@ -1,9 +1,10 @@
 
-package com.edt.service;
+package com.edt.Service;
 
 import com.edt.dto.SalleRequest;
 import com.edt.dto.SalleResponse;
 import com.edt.entity.Salle;
+import com.edt.entity.enums.TypeSalle;
 import com.edt.repository.SalleRepository;
 
 import org.springframework.http.HttpStatus;
@@ -42,7 +43,7 @@ public class SalleService {
         Salle salle = new Salle();
         salle.setNom(request.nom());
         salle.setCapacite(request.capacite());
-        salle.setType(request.type());
+        salle.setType(convertirEnTypeSalle(request.type()));
 
         return convertirEnResponse(salleRepository.save(salle));
     }
@@ -65,7 +66,7 @@ public class SalleService {
 
         salle.setNom(request.nom());
         salle.setCapacite(request.capacite());
-        salle.setType(request.type());
+        salle.setType(convertirEnTypeSalle(request.type()));
 
         return convertirEnResponse(salleRepository.save(salle));
     }
@@ -86,12 +87,23 @@ public class SalleService {
         return salleRepository.count();
     }
 
+    private TypeSalle convertirEnTypeSalle(String type) {
+        try {
+            return TypeSalle.valueOf(type.trim().toUpperCase());
+        } catch (IllegalArgumentException | NullPointerException e) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Type de salle invalide : " + type
+            );
+        }
+    }
+
     private SalleResponse convertirEnResponse(Salle salle) {
         return new SalleResponse(
                 salle.getId(),
                 salle.getNom(),
                 salle.getCapacite(),
-                salle.getType()
+                salle.getType().name()
         );
     }
 }

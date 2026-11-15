@@ -5,6 +5,7 @@
 
   <main class="content">
 
+    <!-- BANNIERE -->
     <section class="hero">
       <div>
         <h1>Gestion des enseignants</h1>
@@ -12,6 +13,142 @@
       </div>
     </section>
 
+    <!-- BOUTON AJOUT UNIQUE -->
+    <div class="actions">
+      <button
+        class="btn-add"
+        type="button"
+        (click)="ouvrirFormulaire()"
+        *ngIf="!afficherFormulaire">
+        <span>+</span> Ajouter un enseignant
+      </button>
+    </div>
+
+    <!-- MESSAGES -->
+    <p *ngIf="messageSucces" class="success">
+      {{ messageSucces }}
+    </p>
+
+    <p *ngIf="messageErreur" class="error">
+      {{ messageErreur }}
+    </p>
+
+    <!-- FENETRE MODALE -->
+    <div class="modal-overlay" *ngIf="afficherFormulaire">
+
+      <div class="modal-container">
+
+        <div class="modal-header">
+          <div>
+            <h2>Nouvel enseignant</h2>
+            <p>Remplissez les informations de l'enseignant</p>
+          </div>
+
+          <button
+            class="close-btn"
+            type="button"
+            (click)="annuler()">×</button>
+        </div>
+
+        <form (ngSubmit)="ajouterProfesseur()" #formProf="ngForm">
+
+          <div class="form-grid">
+
+            <div class="form-group">
+              <label>Nom</label>
+              <input
+                type="text"
+                name="nom"
+                [(ngModel)]="nouveauProfesseur.nom"
+                required
+                placeholder="Nom">
+            </div>
+
+            <div class="form-group">
+              <label>Prénom</label>
+              <input
+                type="text"
+                name="prenom"
+                [(ngModel)]="nouveauProfesseur.prenom"
+                required
+                placeholder="Prénom">
+            </div>
+
+            <div class="form-group">
+              <label>Adresse email</label>
+              <input
+                type="email"
+                name="email"
+                [(ngModel)]="nouveauProfesseur.email"
+                required
+                placeholder="exemple@email.com">
+            </div>
+
+            <div class="form-group">
+              <label>Mot de passe</label>
+              <input
+                type="password"
+                name="motDePasse"
+                [(ngModel)]="nouveauProfesseur.motDePasse"
+                required
+                placeholder="Mot de passe">
+            </div>
+
+            <div class="form-group">
+              <label>Spécialité</label>
+              <input
+                type="text"
+                name="specialite"
+                [(ngModel)]="nouveauProfesseur.specialite"
+                required
+                placeholder="Ex : Informatique">
+            </div>
+
+            <div class="form-group">
+              <label>Département</label>
+              <select
+                name="departementId"
+                [(ngModel)]="nouveauProfesseur.departementId"
+                required>
+
+                <option [ngValue]="0" disabled>
+                  Choisir un département
+                </option>
+
+                <option
+                  *ngFor="let d of departements"
+                  [ngValue]="d.id">
+                  {{ d.code }} - {{ d.nom }}
+                </option>
+
+              </select>
+            </div>
+
+          </div>
+
+          <div class="modal-footer">
+
+            <button
+              type="button"
+              class="btn-cancel"
+              (click)="annuler()">
+              Annuler
+            </button>
+
+            <button
+              type="submit"
+              class="btn-save"
+              [disabled]="enregistrement || !formProf.valid">
+              {{ enregistrement ? 'Enregistrement...' : 'Enregistrer' }}
+            </button>
+
+          </div>
+
+        </form>
+      </div>
+    </div>
+
+    <!-- TABLEAU -->
     <div class="card">
 
       <div class="card-header">
@@ -21,11 +158,7 @@
 
       <p *ngIf="chargement">Chargement...</p>
 
-      <p *ngIf="messageErreur" class="error">
-        {{ messageErreur }}
-      </p>
-
-      <div class="table-wrap" *ngIf="!chargement && !messageErreur">
+      <div class="table-wrap" *ngIf="!chargement">
 
         <table>
           <thead>
@@ -40,6 +173,7 @@
           </thead>
 
           <tbody>
+
             <tr *ngFor="let p of professeurs">
               <td>{{ p.id }}</td>
               <td>{{ p.nom }}</td>
@@ -52,11 +186,11 @@
             <tr *ngIf="professeurs.length === 0">
               <td colspan="6">Aucun professeur enregistré.</td>
             </tr>
+
           </tbody>
         </table>
 
       </div>
-
     </div>
 
   </main>

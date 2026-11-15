@@ -3,7 +3,7 @@ package com.edt.controller;
 
 import com.edt.dto.DepartementRequest;
 import com.edt.dto.DepartementResponse;
-import com.edt.service.DepartementService;
+import com.edt.Service.DepartementService;
 
 import jakarta.validation.Valid;
 

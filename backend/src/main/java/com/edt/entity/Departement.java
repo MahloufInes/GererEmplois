@@ -32,7 +32,9 @@ public class Departement {
     @OneToMany(mappedBy = "departement")
     private List<Professeur> professeurs = new ArrayList<>();
 
-    @JsonIgnore
     @OneToMany(mappedBy = "departement")
+    @JsonIgnore
     private List<Matiere> matieres = new ArrayList<>();
+
+
 }

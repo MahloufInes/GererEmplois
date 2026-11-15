@@ -1,89 +1,50 @@
 
-<div class="shell">
+<div class="dashboard-container">
 
   <app-menu></app-menu>
 
   <main class="content">
 
-    <div class="dashboard">
+    <section class="hero">
+      <h1>Tableau de bord</h1>
+      <p>Bienvenue dans votre espace de gestion EduPlanning.</p>
+    </section>
 
-      <div class="welcome">
+    <div class="stats-container">
+
+      <div class="stat-card">
+        <div class="stat-icon">🎓</div>
         <div>
-          <h1>Bienvenue sur EduPlanning 👋</h1>
-          <p>Voici un aperçu de la gestion de votre établissement.</p>
+          <h3>Étudiants</h3>
+          <p>{{ nombreEtudiants }}</p>
         </div>
-        <span class="date">Tableau de bord</span>
       </div>
 
-      <!-- Cartes statistiques -->
-      <div class="stats">
-
-        <div class="stat-card">
-          <div class="stat-icon purple">🎓</div>
-          <div>
-            <h3>{{ nombreEtudiants }}</h3>
-            <p>Étudiants</p>
-          </div>
+      <div class="stat-card">
+        <div class="stat-icon">📚</div>
+        <div>
+          <h3>Filières</h3>
+          <p>{{ nombreFilieres }}</p>
         </div>
-
-        <div class="stat-card">
-          <div class="stat-icon blue">👨‍🏫</div>
-          <div>
-            <h3>25</h3>
-            <p>Enseignants</p>
-          </div>
-        </div>
-
-        <div class="stat-card">
-          <div class="stat-icon green">📚</div>
-          <div>
-            <h3>{{ nombreFilieres }}</h3>
-            <p>Filières</p>
-          </div>
-        </div>
-
-        <div class="stat-card">
-          <div class="stat-icon orange">👥</div>
-          <div>
-            <h3>{{ nombreGroupes }}</h3>
-            <p>Groupes</p>
-          </div>
-        </div>
-
       </div>
 
-      <!-- Activités -->
-      <div class="activity-card">
-        <h2>Activités récentes</h2>
-
-        <div class="activity">
-          <span class="activity-icon">🎓</span>
-          <div>
-            <strong>Gestion des étudiants</strong>
-            <p>Consulter et gérer les étudiants.</p>
-          </div>
+      <div class="stat-card">
+        <div class="stat-icon">👥</div>
+        <div>
+          <h3>Groupes</h3>
+          <p>{{ nombreGroupes }}</p>
         </div>
+      </div>
 
-        <div class="activity">
-          <span class="activity-icon">📚</span>
-          <div>
-            <strong>Gestion des filières</strong>
-            <p>Organiser les filières de l'établissement.</p>
-          </div>
+      <div class="stat-card">
+        <div class="stat-icon">👨‍🏫</div>
+        <div>
+          <h3>Enseignants</h3>
+          <p>{{ nombreEnseignants }}</p>
         </div>
-
-        <div class="activity">
-          <span class="activity-icon">📅</span>
-          <div>
-            <strong>Emplois du temps</strong>
-            <p>Organiser les séances et les horaires.</p>
-          </div>
-        </div>
-
       </div>
 
     </div>
 
   </main>
-
 </div>

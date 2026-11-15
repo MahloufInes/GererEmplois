@@ -18,7 +18,8 @@ import { DashboardComponent } from './administrateur/dashboard/dashboard.compone
 import { EnseignantsComponent } from './administrateur/enseignants/enseignants.component';
 import { SallesComponent } from './administrateur/salles/salles.component';
 import { CreneauxHorairesComponent } from './administrateur/creneaux-horaires/creneaux-horaires.component';
-
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,13 @@ import { CreneauxHorairesComponent } from './administrateur/creneaux-horaires/cr
     HttpClientModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [
+  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: AuthInterceptor,
+    multi: true
+  }
+],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

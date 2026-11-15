@@ -14,7 +14,7 @@ export class LoginComponent {
   email: string = '';
   motDePasse: string = '';
   errorMessage: string = '';
-
+  afficherMotDePasse = false;
   constructor(
     private authService: AuthService,
     private router: Router

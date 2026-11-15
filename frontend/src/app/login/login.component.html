@@ -1,4 +1,3 @@
-```html
 <div class="page">
 
   <!-- LEFT -->
@@ -150,9 +149,10 @@
         </div>
         <span>EduPlanning</span>
       </div>
-
-      <h1>Welcome to EduPlanning</h1>
-      <p class="subtitle">Connectez-vous pour accéder à votre emploi du temps</p>
+<h1>Bienvenue sur EduPlanning</h1>
+<p class="subtitle">
+  Connectez-vous à votre espace pour gérer votre emploi du temps.
+</p>
 
       <form id="login-form" (ngSubmit)="login()" #loginForm="ngForm">
 
@@ -174,28 +174,52 @@
         </div>
 
         <label for="password">Mot de passe</label>
-        <div class="field">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="11" width="18" height="11" rx="2"/>
-            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-          </svg>
 
-          <input
-            id="password"
-            type="password"
-            name="motDePasse"
-            [(ngModel)]="motDePasse"
-            autocomplete="current-password"
-            placeholder="Saisissez votre mot de passe"
-            required>
+<div class="field">
+  <svg width="16" height="16" viewBox="0 0 24 24"
+       fill="none" stroke="currentColor" stroke-width="2"
+       stroke-linecap="round" stroke-linejoin="round">
+    <rect x="3" y="11" width="18" height="11" rx="2"/>
+    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+  </svg>
 
-          <button type="button" class="toggle" id="toggle" aria-label="Afficher le mot de passe">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/>
-              <circle cx="12" cy="12" r="3"/>
-            </svg>
-          </button>
-        </div>
+  <input
+    id="password"
+    [type]="afficherMotDePasse ? 'text' : 'password'"
+    name="motDePasse"
+    [(ngModel)]="motDePasse"
+    autocomplete="current-password"
+    placeholder="Saisissez votre mot de passe"
+    required>
+
+  <button
+    type="button"
+    class="toggle"
+    (click)="afficherMotDePasse = !afficherMotDePasse"
+    [attr.aria-label]="afficherMotDePasse ? 'Masquer le mot de passe' : 'Afficher le mot de passe'">
+
+    <svg *ngIf="!afficherMotDePasse"
+         width="18" height="18"
+         viewBox="0 0 24 24"
+         fill="none" stroke="currentColor"
+         stroke-width="2">
+      <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/>
+      <circle cx="12" cy="12" r="3"/>
+    </svg>
+
+    <svg *ngIf="afficherMotDePasse"
+         width="18" height="18"
+         viewBox="0 0 24 24"
+         fill="none" stroke="currentColor"
+         stroke-width="2">
+      <path d="M3 3l18 18"/>
+      <path d="M10.6 10.6a2 2 0 0 0 2.8 2.8"/>
+      <path d="M9.9 5.2A11 11 0 0 1 12 5c6.5 0 10 7 10 7a14 14 0 0 1-4 4.5"/>
+      <path d="M6.2 6.2A15 15 0 0 0 2 12s3.5 7 10 7a10 10 0 0 0 3-.5"/>
+    </svg>
+
+  </button>
+</div>
 
         <div class="forgot">
           <a href="#">Mot de passe oublié ?</a>
@@ -227,4 +251,3 @@
   </main>
 
 </div>
-```

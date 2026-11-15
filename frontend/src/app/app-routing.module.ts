@@ -10,13 +10,14 @@ import { DashboardComponent } from './administrateur/dashboard/dashboard.compone
 import { EnseignantsComponent } from './administrateur/enseignants/enseignants.component';
 import { SallesComponent } from './administrateur/salles/salles.component';
 import { CreneauxHorairesComponent } from './administrateur/creneaux-horaires/creneaux-horaires.component';
+import { AuthGuard } from './auth.guard';
 
 const routes: Routes = [  
   {path:'',component:LoginComponent},
-  { path: 'crudEtud', component: CrudEtudiantComponent },
-  { path: 'crud_Adm', component: CrudSousAdminComponent },
-  { path: 'crudGroupes', component: CrudGroupesComponent },
-  { path: 'crudFilieres', component: CrudFilieresComponent },
+  { path: 'crudEtud', component: CrudEtudiantComponent, canActivate: [AuthGuard] },
+  { path: 'crud_Adm', component: CrudSousAdminComponent, canActivate: [AuthGuard] },
+  { path: 'crudGroupes', component: CrudGroupesComponent, canActivate: [AuthGuard] },
+  { path: 'crudFilieres', component: CrudFilieresComponent, canActivate: [AuthGuard] },
   { path: 'crudDepartements', component: CrudDepartementsComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'enseignants', component: EnseignantsComponent },

@@ -15,6 +15,6 @@ export class MenuComponent {
     localStorage.clear();
     sessionStorage.clear();
 
-    this.router.navigate(['/']);
+    this.router.navigateByUrl('/', { replaceUrl: true });
   }
 }

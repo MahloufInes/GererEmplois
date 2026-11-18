@@ -17,7 +17,7 @@ public record ProfesseurRequest(
         @Email
         String email,
 
-        @NotBlank
+
         String motDePasse,
 
         @NotBlank

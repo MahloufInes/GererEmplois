@@ -15,6 +15,7 @@ export class LoginComponent {
   motDePasse: string = '';
   errorMessage: string = '';
   afficherMotDePasse = false;
+
   constructor(
     private authService: AuthService,
     private router: Router
@@ -31,16 +32,31 @@ export class LoginComponent {
         console.log('Login successful!');
         console.log('User:', response);
 
-        // Save JWT token
+        // Sauvegarder les informations de connexion
         localStorage.setItem('token', response.token);
-
-        // Save user information
         localStorage.setItem('user', JSON.stringify(response));
 
-        console.log('JWT token saved successfully.');
+        // Redirection selon le rôle
+       switch (response.role) {
 
-        // Redirect to dashboard
-        this.router.navigate(['/dashboard']);
+  case 'ADMINISTRATEUR':
+  case 'SOUS_ADMINISTRATEUR':
+    this.router.navigate(['/dashboard']);
+    break;
+
+  case 'PROFESSEUR':
+    this.router.navigate(['/dashboard-professeur']);
+    break;
+
+  case 'ETUDIANT':
+    this.router.navigate(['/dashboard-etudiant']);
+    break;
+
+  default:
+    this.errorMessage = 'Rôle utilisateur non reconnu.';
+    this.authService.logout();
+    break;
+}
 
       },
 

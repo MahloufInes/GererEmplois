@@ -4,7 +4,7 @@ package com.edt.controller;
 import com.edt.dto.ProfesseurRequest;
 import com.edt.dto.ProfesseurResponse;
 import com.edt.service.ProfesseurService;
-
+import com.edt.dto.ProfesseurCreationResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -37,7 +37,7 @@ public class ProfesseurController {
     // Ajouter un professeur
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ProfesseurResponse ajouter(
+    public ProfesseurCreationResponse ajouter(
             @Valid @RequestBody ProfesseurRequest request) {
         return professeurService.ajouter(request);
     }

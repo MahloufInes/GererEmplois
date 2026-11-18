@@ -1,0 +1,26 @@
+<div class="sidebar">
+
+  <div class="logo">
+    <h2>🎓 EduPlanning</h2>
+    <p>Espace Professeur</p>
+  </div>
+
+  <nav>
+    <a routerLink="/dashboard-professeur" routerLinkActive="active">
+      🏠 Tableau de bord
+    </a>
+
+    <a routerLink="/emploi-professeur" routerLinkActive="active">
+      📅 Mon emploi du temps
+    </a>
+
+    <a routerLink="/profil-professeur" routerLinkActive="active">
+      👤 Mon profil
+    </a>
+  </nav>
+
+  <button class="logout" (click)="deconnecter()">
+    🚪 Déconnexion
+  </button>
+
+</div>

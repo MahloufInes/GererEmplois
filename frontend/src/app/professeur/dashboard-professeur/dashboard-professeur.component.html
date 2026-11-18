@@ -1,0 +1,78 @@
+
+<div class="shell">
+  <app-menu-professeur></app-menu-professeur>
+
+  <main class="content">
+
+    <section class="hero">
+      <div>
+        <h1>Mon emploi du temps</h1>
+        <p>Consultez toutes vos séances programmées.</p>
+      </div>
+      <div class="hero-icon">📅</div>
+    </section>
+
+    <div class="stats">
+      <div class="stat-card">
+        <span class="stat-icon">📚</span>
+        <div>
+          <h3>{{ seances.length }}</h3>
+          <p>Total des séances</p>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="chargement" class="message">
+      Chargement de votre emploi du temps...
+    </div>
+
+    <div *ngIf="messageErreur" class="message-erreur">
+      {{ messageErreur }}
+    </div>
+
+    <div class="card" *ngIf="!chargement && !messageErreur">
+
+      <div class="card-header">
+        <h2>Mes séances</h2>
+        <span>{{ seances.length }} séance(s)</span>
+      </div>
+
+      <div *ngIf="seances.length === 0" class="empty-state">
+        <div class="empty-icon">📅</div>
+        <h3>Aucun cours programmé</h3>
+        <p>Votre emploi du temps sera affiché ici dès que les séances seront programmées.</p>
+      </div>
+
+      <div class="table-wrap" *ngIf="seances.length > 0">
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Jour</th>
+              <th>Horaire</th>
+              <th>Matière</th>
+              <th>Groupe</th>
+              <th>Salle</th>
+              <th>Type</th>
+              <th>Statut</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let seance of seances">
+              <td>{{ seance.date || '-' }}</td>
+              <td>{{ seance.jour }}</td>
+              <td>{{ seance.heureDebut }} - {{ seance.heureFin }}</td>
+              <td>{{ seance.nomMatiere }}</td>
+              <td>{{ seance.nomGroupe }}</td>
+              <td>{{ seance.nomSalle }}</td>
+              <td><span class="type-badge">{{ seance.type }}</span></td>
+              <td><span class="status-badge">{{ seance.statut }}</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </main>
+</div>

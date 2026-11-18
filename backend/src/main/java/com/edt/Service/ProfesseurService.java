@@ -14,9 +14,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.util.List;
-
+import com.edt.dto.ProfesseurCreationResponse;
+import java.security.SecureRandom;
 @Service
 public class ProfesseurService {
 
@@ -44,8 +44,9 @@ public class ProfesseurService {
     }
 
     // Ajouter un professeur
+
     @Transactional
-    public ProfesseurResponse ajouter(ProfesseurRequest request) {
+    public ProfesseurCreationResponse ajouter(ProfesseurRequest request) {
 
         if (professeurRepository.findByEmail(request.email()).isPresent()) {
             throw new ResponseStatusException(
@@ -57,22 +58,49 @@ public class ProfesseurService {
         ).orElseThrow(() -> new ResponseStatusException(
                 HttpStatus.NOT_FOUND, "Département introuvable"));
 
+        // Générer un mot de passe temporaire
+        String motDePasseTemporaire = genererMotDePasse();
+
         Professeur professeur = new Professeur();
 
         professeur.setNom(request.nom());
         professeur.setPrenom(request.prenom());
         professeur.setEmail(request.email());
+
+        // Enregistrer le mot de passe crypté
         professeur.setMotDePasse(
-                passwordEncoder.encode(request.motDePasse())
+                passwordEncoder.encode(motDePasseTemporaire)
         );
+
         professeur.setRole(Role.PROFESSEUR);
         professeur.setSpecialite(request.specialite());
         professeur.setDepartement(departement);
 
         Professeur saved = professeurRepository.save(professeur);
 
-        return convertirEnResponse(saved);
+        return new ProfesseurCreationResponse(
+                convertirEnResponse(saved),
+                motDePasseTemporaire
+        );
     }
+
+    // Génération d'un mot de passe temporaire aléatoire
+    private String genererMotDePasse() {
+        String caracteres =
+                "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789@#";
+
+        SecureRandom random = new SecureRandom();
+        StringBuilder motDePasse = new StringBuilder();
+
+        for (int i = 0; i < 12; i++) {
+            motDePasse.append(
+                    caracteres.charAt(random.nextInt(caracteres.length()))
+            );
+        }
+
+        return motDePasse.toString();
+    }
+
 
     // Modifier un professeur
     @Transactional

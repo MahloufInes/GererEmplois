@@ -402,3 +402,49 @@ td:nth-child(4) {
     width: 100%;
   }
 }
+
+/* ===== PREFERENCES MATIERES ===== */
+
+.preference-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  padding: 13px 15px;
+  margin-top: 12px;
+  background: #f8f4fd;
+  border: 1px solid #eee4fa;
+  border-radius: 10px;
+  color: #55416e;
+  font-size: 14px;
+}
+
+.btn-preferences {
+  padding: 9px 13px;
+  border: none;
+  border-radius: 8px;
+  background: #7138b5;
+  color: white;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.btn-preferences:hover {
+  background: #9b65d4;
+}
+
+.btn-delete-preference {
+  padding: 7px 11px;
+  border: none;
+  border-radius: 7px;
+  background: #fff0f2;
+  color: #c03952;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.btn-delete-preference:hover {
+  background: #fbdde2;
+}

@@ -1,3 +1,4 @@
+
 package com.edt.Service;
 
 import com.edt.dto.GroupeRequest;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.HashSet;
 
 @Service
 public class GroupeService {
@@ -34,6 +36,7 @@ public class GroupeService {
                 .toList();
     }
 
+    // Ajouter un groupe avec ses semestres
     @Transactional
     public GroupeResponse ajouter(GroupeRequest request) {
 
@@ -45,9 +48,13 @@ public class GroupeService {
         groupe.setEffectif(request.effectif());
         groupe.setFiliere(filiere);
 
+        // Enregistrer les semestres sélectionnés
+        groupe.setSemestres(new HashSet<>(request.semestres()));
+
         return convertir(groupeRepository.save(groupe));
     }
 
+    // Modifier un groupe et ses semestres
     @Transactional
     public GroupeResponse modifier(Long id, GroupeRequest request) {
 
@@ -60,6 +67,9 @@ public class GroupeService {
         groupe.setNom(request.nom());
         groupe.setEffectif(request.effectif());
         groupe.setFiliere(filiere);
+
+        // Remplacer les anciennes associations par les nouvelles
+        groupe.setSemestres(new HashSet<>(request.semestres()));
 
         return convertir(groupeRepository.save(groupe));
     }
@@ -85,7 +95,8 @@ public class GroupeService {
                 groupe.getNom(),
                 groupe.getEffectif(),
                 groupe.getFiliere().getId(),
-                groupe.getFiliere().getNom()
+                groupe.getFiliere().getNom(),
+                groupe.getSemestres().stream().sorted().toList()
         );
     }
 }

@@ -13,6 +13,7 @@ interface Groupe {
   effectif: number;
   filiereId: number;
   filiere: string;
+  semestres: string[];
 }
 
 @Component({
@@ -28,6 +29,11 @@ export class CrudGroupesComponent implements OnInit {
   groupes: Groupe[] = [];
   filieres: Filiere[] = [];
 
+  // Semestres disponibles
+  semestresDisponibles: string[] = [
+    'S1', 'S2', 'S3', 'S4', 'S5', 'S6'
+  ];
+
   showForm = false;
   editingId: number | null = null;
   search = '';
@@ -37,7 +43,8 @@ export class CrudGroupesComponent implements OnInit {
   form = {
     nom: '',
     effectif: 1,
-    filiereId: 0
+    filiereId: 0,
+    semestres: [] as string[]
   };
 
   constructor(private http: HttpClient) {}
@@ -82,13 +89,28 @@ export class CrudGroupesComponent implements OnInit {
     );
   }
 
+  // Ajouter ou retirer un semestre
+  toggleSemestre(semestre: string, checked: boolean): void {
+    if (checked) {
+      if (!this.form.semestres.includes(semestre)) {
+        this.form.semestres.push(semestre);
+      }
+    } else {
+      this.form.semestres =
+        this.form.semestres.filter(s => s !== semestre);
+    }
+  }
+
   openAdd(): void {
     this.editingId = null;
+
     this.form = {
       nom: '',
       effectif: 1,
-      filiereId: this.filieres.length ? this.filieres[0].id : 0
+      filiereId: this.filieres.length ? this.filieres[0].id : 0,
+      semestres: []
     };
+
     this.erreur = '';
     this.showForm = true;
   }
@@ -99,7 +121,8 @@ export class CrudGroupesComponent implements OnInit {
     this.form = {
       nom: groupe.nom,
       effectif: groupe.effectif,
-      filiereId: groupe.filiereId
+      filiereId: groupe.filiereId,
+      semestres: [...(groupe.semestres || [])]
     };
 
     this.erreur = '';
@@ -107,12 +130,15 @@ export class CrudGroupesComponent implements OnInit {
   }
 
   save(): void {
+
     if (
       !this.form.nom.trim() ||
       this.form.effectif < 1 ||
-      this.form.filiereId <= 0
+      this.form.filiereId <= 0 ||
+      this.form.semestres.length === 0
     ) {
-      this.erreur = 'Veuillez remplir correctement tous les champs.';
+      this.erreur =
+        'Veuillez remplir tous les champs et sélectionner au moins un semestre.';
       return;
     }
 
@@ -121,10 +147,12 @@ export class CrudGroupesComponent implements OnInit {
     const request = {
       nom: this.form.nom.trim(),
       effectif: this.form.effectif,
-      filiereId: this.form.filiereId
+      filiereId: this.form.filiereId,
+      semestres: this.form.semestres
     };
 
     if (this.editingId === null) {
+
       this.http.post(this.apiGroupes, request).subscribe({
         next: () => {
           this.close();
@@ -132,10 +160,13 @@ export class CrudGroupesComponent implements OnInit {
         },
         error: err => {
           console.error(err);
-          this.erreur = err.error?.message || 'Erreur lors de l’ajout.';
+          this.erreur =
+            err.error?.message || 'Erreur lors de l’ajout.';
         }
       });
+
     } else {
+
       this.http.put(
         `${this.apiGroupes}/${this.editingId}`,
         request
@@ -146,7 +177,8 @@ export class CrudGroupesComponent implements OnInit {
         },
         error: err => {
           console.error(err);
-          this.erreur = err.error?.message || 'Erreur lors de la modification.';
+          this.erreur =
+            err.error?.message || 'Erreur lors de la modification.';
         }
       });
     }

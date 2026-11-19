@@ -1,4 +1,3 @@
-
 <div class="shell">
 
   <app-menu></app-menu>
@@ -10,6 +9,10 @@
         <h1>Gestion des enseignants</h1>
         <p>Consultez et organisez les professeurs de votre établissement.</p>
       </div>
+
+      <button class="btn light" type="button" (click)="openAdd()">
+        + Ajouter un enseignant
+      </button>
     </section>
 
     <div class="card">
@@ -21,12 +24,10 @@
 
       <p *ngIf="chargement">Chargement...</p>
 
-      <p *ngIf="messageErreur" class="error">
-        {{ messageErreur }}
-      </p>
+      <p *ngIf="messageErreur" class="error">{{ messageErreur }}</p>
+      <p *ngIf="erreurAction" class="error">{{ erreurAction }}</p>
 
       <div class="table-wrap" *ngIf="!chargement && !messageErreur">
-
         <table>
           <thead>
             <tr>
@@ -36,6 +37,7 @@
               <th>Email</th>
               <th>Spécialité</th>
               <th>Département</th>
+              <th>Actions</th>
             </tr>
           </thead>
 
@@ -47,17 +49,79 @@
               <td>{{ p.email }}</td>
               <td>{{ p.specialite }}</td>
               <td>{{ p.nomDepartement || '-' }}</td>
+              <td class="actions-cell">
+                <button type="button" class="btn-edit" (click)="openEdit(p)">
+                  Modifier
+                </button>
+                <button type="button" class="btn-delete" (click)="supprimer(p)">
+                  Supprimer
+                </button>
+              </td>
             </tr>
 
             <tr *ngIf="professeurs.length === 0">
-              <td colspan="6">Aucun professeur enregistré.</td>
+              <td colspan="7">Aucun professeur enregistré.</td>
             </tr>
           </tbody>
         </table>
-
       </div>
 
     </div>
 
   </main>
+
+  <!-- MODALE AJOUT / MODIFICATION -->
+  <div class="modal-backdrop" *ngIf="showForm">
+    <div class="modal">
+
+      <h2>{{ editingId === null ? 'Ajouter un enseignant' : 'Modifier un enseignant' }}</h2>
+
+      <form (ngSubmit)="save()">
+
+        <label for="nom">Nom</label>
+        <input id="nom" name="nom" type="text"
+               [(ngModel)]="form.nom" required>
+
+        <label for="prenom">Prénom</label>
+        <input id="prenom" name="prenom" type="text"
+               [(ngModel)]="form.prenom" required>
+
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email"
+               [(ngModel)]="form.email" required>
+
+        <label for="motDePasse">
+          Mot de passe{{ editingId !== null ? ' (laisser vide pour ne pas changer)' : '' }}
+        </label>
+        <input id="motDePasse" name="motDePasse" type="password"
+               [(ngModel)]="form.motDePasse"
+               [required]="editingId === null">
+
+        <label for="specialite">Spécialité</label>
+        <input id="specialite" name="specialite" type="text"
+               [(ngModel)]="form.specialite"
+               placeholder="Exemple : Java" required>
+
+        <label for="departementId">Département</label>
+        <select id="departementId" name="departementId"
+                [(ngModel)]="form.departementId" required>
+          <option [ngValue]="0" disabled>Choisir un département</option>
+          <option *ngFor="let d of departements" [ngValue]="d.id">
+            {{ d.nom }}
+          </option>
+        </select>
+
+        <p class="error" *ngIf="erreurForm">{{ erreurForm }}</p>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-cancel" (click)="close()">Annuler</button>
+          <button type="submit" class="btn-save">
+            {{ editingId === null ? 'Ajouter' : 'Enregistrer' }}
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
 </div>

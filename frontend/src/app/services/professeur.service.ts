@@ -1,4 +1,3 @@
-
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -22,17 +21,27 @@ export interface ProfesseurRequest {
   departementId: number;
 }
 
+export interface Departement {
+  id: number;
+  nom: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class ProfesseurService {
 
   private apiUrl = 'http://localhost:8081/api/professeurs';
+  private apiDepartements = 'http://localhost:8081/api/departements';
 
   constructor(private http: HttpClient) {}
 
   afficherTous(): Observable<Professeur[]> {
     return this.http.get<Professeur[]>(this.apiUrl);
+  }
+
+  afficherDepartements(): Observable<Departement[]> {
+    return this.http.get<Departement[]>(this.apiDepartements);
   }
 
   compterProfesseurs(): Observable<number> {

@@ -12,6 +12,7 @@ import { SallesComponent } from './administrateur/salles/salles.component';
 import { CreneauxHorairesComponent } from './administrateur/creneaux-horaires/creneaux-horaires.component';
 import { GenererEmploiComponent } from './administrateur/generer-emploi/generer-emploi.component';
 import { MatieresComponent } from './matieres/matieres.component';
+import { ConsulterEmploisComponent } from './administrateur/consulter-emplois/consulter-emplois.component';
 
 const routes: Routes = [  
   {path:'',component:LoginComponent},
@@ -25,7 +26,8 @@ const routes: Routes = [
   { path: 'enseignants', component: EnseignantsComponent },
   {path: 'salles', component: SallesComponent},
   {path: 'creneaux-horaires', component: CreneauxHorairesComponent},
-  {path: 'emploi', component: GenererEmploiComponent}
+  {path: 'emploi', component: GenererEmploiComponent},
+  { path: 'consulter-emplois', component: ConsulterEmploisComponent },
   
 ];
 

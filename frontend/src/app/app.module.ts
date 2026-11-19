@@ -21,6 +21,8 @@ import { CreneauxHorairesComponent } from './administrateur/creneaux-horaires/cr
 import { GenererEmploiComponent } from './administrateur/generer-emploi/generer-emploi.component';
 import { MatieresComponent } from './matieres/matieres.component';
 
+import { ConsulterEmploisComponent } from './administrateur/consulter-emplois/consulter-emplois.component';
+
 
 @NgModule({
   declarations: [
@@ -39,7 +41,9 @@ import { MatieresComponent } from './matieres/matieres.component';
     SallesComponent,
     CreneauxHorairesComponent,
     GenererEmploiComponent,
-    MatieresComponent
+    MatieresComponent,
+   
+    ConsulterEmploisComponent
   ],
   imports: [
     BrowserModule,

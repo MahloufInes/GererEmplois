@@ -186,3 +186,183 @@ td:nth-child(4) {
     padding: 14px;
   }
 }
+/* ---------- En-tête avec bouton ---------- */
+.hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.btn {
+  height: 46px;
+  padding: 0 22px;
+  border: 0;
+  border-radius: 14px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform .2s, box-shadow .2s, background .2s;
+}
+
+.btn.light {
+  background: #fff;
+  color: #4b3bb0;
+  white-space: nowrap;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, .18);
+}
+
+.btn.light:hover {
+  background: #f1eefb;
+  transform: translateY(-2px);
+}
+
+/* ---------- Fenêtre modale ---------- */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: rgba(34, 31, 58, .5);
+  backdrop-filter: blur(3px);
+}
+
+.modal {
+  width: 100%;
+  max-width: 540px;
+  max-height: 90vh;
+  overflow: auto;
+  padding: 32px;
+  border-radius: 22px;
+  background: #fff;
+  box-shadow: 0 24px 60px rgba(34, 31, 58, .3);
+}
+
+.modal h2 {
+  margin-bottom: 24px;
+  font-size: 20px;
+  color: #4b3bb0;
+}
+
+.modal label {
+  display: block;
+  margin: 12px 0 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #37334b;
+}
+
+.modal input,
+.modal select {
+  width: 100%;
+  height: 48px;
+  padding: 0 14px;
+  border: 1px solid #d3c9ee;
+  border-radius: 12px;
+  font: inherit;
+  font-size: 14px;
+  outline: 0;
+  background: #fff;
+}
+
+.modal input:focus,
+.modal select:focus {
+  border-color: #6352c9;
+  box-shadow: 0 0 0 3px rgba(99, 82, 201, .15);
+}
+
+.modal .error {
+  margin-top: 12px;
+  color: #c0392b;
+  font-size: 13px;
+}
+
+/* ---------- Boutons de la modale ---------- */
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.btn-cancel,
+.btn-save {
+  min-width: 120px;
+  height: 46px;
+  padding: 0 22px;
+  border: 0;
+  border-radius: 12px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .2s, transform .15s, box-shadow .2s;
+}
+
+.btn-cancel {
+  background: #eeeafd;
+  color: #4b3bb0;
+}
+
+.btn-cancel:hover {
+  background: #dcd5fa;
+}
+
+.btn-save {
+  background: linear-gradient(120deg, #4b3bb0, #6352c9);
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(75, 59, 176, .3);
+}
+
+.btn-save:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(75, 59, 176, .4);
+}
+/* ---------- Boutons Modifier / Supprimer ---------- */
+.actions-cell {
+  white-space: nowrap;
+}
+
+.btn-edit,
+.btn-delete {
+  height: 34px;
+  padding: 0 16px;
+  margin-right: 8px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .2s, color .2s, transform .15s;
+}
+
+.btn-edit {
+  background: #eeeafd;
+  color: #4b3bb0;
+  border-color: #d9d1f7;
+}
+
+.btn-edit:hover {
+  background: #4b3bb0;
+  color: #fff;
+}
+
+.btn-delete {
+  background: #fdeceb;
+  color: #c0392b;
+  border-color: #f6cdc9;
+}
+
+.btn-delete:hover {
+  background: #c0392b;
+  color: #fff;
+}
+
+.btn-edit:active,
+.btn-delete:active {
+  transform: scale(.96);
+}

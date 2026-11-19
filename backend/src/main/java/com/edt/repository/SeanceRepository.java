@@ -61,4 +61,8 @@ public interface SeanceRepository extends JpaRepository<Seance, Long> {
             Long creneauId,
             LocalDate date
     );
+    List<Seance> findByGroupeIdAndEmploiDuTempsSemestre(
+            Long groupeId,
+            String semestre
+    );
 }

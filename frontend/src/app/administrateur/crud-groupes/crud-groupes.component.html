@@ -5,17 +5,19 @@
 
   <main class="content">
 
+    <!-- En-tête -->
     <section class="hero">
       <div>
         <h1>Gestion des groupes</h1>
         <p>Ajoutez, modifiez et organisez les groupes de votre établissement.</p>
       </div>
 
-      <button class="btn light" (click)="openAdd()">
+      <button class="btn light" type="button" (click)="openAdd()">
         + Ajouter un groupe
       </button>
     </section>
 
+    <!-- Statistiques -->
     <section class="stats">
       <div class="stat-card">
         <h3>{{ groupes.length }}</h3>
@@ -28,11 +30,12 @@
       </div>
 
       <div class="stat-card">
-        <h3>{{ groupes.length}}</h3>
+        <h3>{{ groupes.length }}</h3>
         <p>Gestion des groupes</p>
       </div>
     </section>
 
+    <!-- Recherche -->
     <section class="toolbar">
       <input
         type="text"
@@ -43,6 +46,7 @@
 
     <p class="error" *ngIf="erreur">{{ erreur }}</p>
 
+    <!-- Tableau -->
     <div class="table-container">
 
       <p *ngIf="chargement">Chargement des groupes...</p>
@@ -53,6 +57,7 @@
             <th>Nom du groupe</th>
             <th>Effectif</th>
             <th>Filière</th>
+            <th>Semestres</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -62,19 +67,26 @@
             <td>{{ g.nom }}</td>
             <td>{{ g.effectif }} étudiants</td>
             <td>{{ g.filiere }}</td>
+            <td>{{ g.semestres?.join(', ') || 'Non définis' }}</td>
             <td>
-              <button class="btn-edit" (click)="openEdit(g)">
+              <button
+                type="button"
+                class="btn-edit"
+                (click)="openEdit(g)">
                 Modifier
               </button>
 
-              <button class="btn-delete" (click)="supprimer(g)">
+              <button
+                type="button"
+                class="btn-delete"
+                (click)="supprimer(g)">
                 Supprimer
               </button>
             </td>
           </tr>
 
           <tr *ngIf="filtered.length === 0">
-            <td colspan="4">Aucun groupe trouvé.</td>
+            <td colspan="5">Aucun groupe trouvé.</td>
           </tr>
         </tbody>
       </table>
@@ -83,15 +95,21 @@
 
   </main>
 
+  <!-- MODALE AJOUT / MODIFICATION -->
   <div class="modal-backdrop" *ngIf="showForm">
+
     <div class="modal">
 
-      <h2>{{ editingId === null ? 'Ajouter un groupe' : 'Modifier un groupe' }}</h2>
+      <h2>
+        {{ editingId === null ? 'Ajouter un groupe' : 'Modifier un groupe' }}
+      </h2>
 
       <form (ngSubmit)="save()">
 
-        <label>Nom du groupe</label>
+        <!-- Nom -->
+        <label for="nom">Nom du groupe</label>
         <input
+          id="nom"
           type="text"
           name="nom"
           [(ngModel)]="form.nom"
@@ -99,8 +117,10 @@
           required
         >
 
-        <label>Effectif</label>
+        <!-- Effectif -->
+        <label for="effectif">Effectif</label>
         <input
+          id="effectif"
           type="number"
           name="effectif"
           [(ngModel)]="form.effectif"
@@ -108,8 +128,10 @@
           required
         >
 
-        <label>Filière</label>
+        <!-- Filière -->
+        <label for="filiereId">Filière</label>
         <select
+          id="filiereId"
           name="filiereId"
           [(ngModel)]="form.filiereId"
           required
@@ -121,20 +143,65 @@
           </option>
         </select>
 
-        <p class="error" *ngIf="erreur">{{ erreur }}</p>
+        <!-- Semestres -->
+        <div class="semestres-section">
 
+          <label>Semestres associés</label>
+
+          <p class="semestres-description">
+            Cochez un ou plusieurs semestres pour ce groupe.
+          </p>
+
+          <div class="semestres-grid">
+
+            <label
+              class="semestre-option"
+              *ngFor="let semestre of semestresDisponibles">
+
+              <input
+                type="checkbox"
+                [checked]="form.semestres.includes(semestre)"
+                (change)="toggleSemestre(
+                  semestre,
+                  $any($event.target).checked
+                )"
+              >
+
+              <span>{{ semestre }}</span>
+
+            </label>
+
+          </div>
+
+        </div>
+
+        <!-- Erreur -->
+        <p class="error" *ngIf="erreur">
+          {{ erreur }}
+        </p>
+
+        <!-- Actions -->
         <div class="modal-actions">
-          <button type="button" class="btn-cancel" (click)="close()">
+
+          <button
+            type="button"
+            class="btn-cancel"
+            (click)="close()">
             Annuler
           </button>
 
-          <button type="submit" class="btn-save">
+          <button
+            type="submit"
+            class="btn-save">
             {{ editingId === null ? 'Ajouter' : 'Enregistrer' }}
           </button>
+
         </div>
 
       </form>
+
     </div>
+
   </div>
 
 </div>

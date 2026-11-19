@@ -1,0 +1,163 @@
+
+<div class="shell">
+
+  <app-menu></app-menu>
+
+  <main class="content">
+
+    <div class="consultation-container">
+
+      <div class="page-header">
+        <h1>Consultation des emplois du temps</h1>
+        <p>Consultez les emplois du temps déjà générés par département, filière et groupe.</p>
+      </div>
+
+      <div class="selection-container">
+
+        <!-- 1. Département -->
+        <div class="selection-card">
+          <h3>1. Département</h3>
+
+          <p *ngIf="chargementDepartements">Chargement des départements...</p>
+
+          <div class="selection-list" *ngIf="!chargementDepartements">
+            <button
+              *ngFor="let dep of departements"
+              [class.selected]="departementSelectionne === dep.id"
+              (click)="selectionnerDepartement(dep.id)">
+              {{ dep.nom }}
+            </button>
+          </div>
+        </div>
+
+        <!-- 2. Filière -->
+        <div class="selection-card" *ngIf="departementSelectionne !== null">
+          <h3>2. Filière</h3>
+
+          <div class="selection-list">
+            <button
+              *ngFor="let filiere of filieresFiltrees"
+              [class.selected]="filiereSelectionnee === filiere.id"
+              (click)="selectionnerFiliere(filiere.id)">
+              {{ filiere.nom }}
+            </button>
+          </div>
+
+          <p *ngIf="filieresFiltrees.length === 0">
+            Aucune filière trouvée.
+          </p>
+        </div>
+
+        <!-- 3. Groupe -->
+        <div class="selection-card" *ngIf="filiereSelectionnee !== null">
+          <h3>3. Groupe</h3>
+
+          <div class="selection-list">
+            <button
+              *ngFor="let groupe of groupesFiltres"
+              [class.selected]="groupeSelectionne === groupe.id"
+              (click)="selectionnerGroupe(groupe.id)">
+              {{ groupe.nom }}
+            </button>
+          </div>
+
+          <p *ngIf="groupesFiltres.length === 0">
+            Aucun groupe trouvé pour cette filière.
+          </p>
+        </div>
+
+        <!-- 4. Semestre -->
+        <div class="selection-card" *ngIf="groupeSelectionne !== null">
+          <h3>4. Semestre</h3>
+
+          <div class="selection-list">
+            <button
+              *ngFor="let semestre of semestresDisponibles"
+              [class.selected]="semestreSelectionne === semestre"
+              (click)="consulterEmploiDuTemps(semestre)">
+              {{ semestre }}
+            </button>
+          </div>
+
+          <p *ngIf="semestresDisponibles.length === 0">
+            Aucun semestre disponible pour ce groupe.
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Messages -->
+      <div class="error-message" *ngIf="erreur">
+        {{ erreur }}
+      </div>
+
+      <div class="loading-message" *ngIf="chargementSeances">
+        Chargement de l'emploi du temps...
+      </div>
+
+      <!-- Emploi du temps -->
+      <div class="timetable-section"
+           *ngIf="semestreSelectionne !== null && !chargementSeances">
+
+        <div class="timetable-header">
+          <h2>Emploi du temps</h2>
+          <p>Groupe : <strong>{{ groupeNomSelectionne }}</strong></p>
+          <p>Semestre : <strong>{{ semestreSelectionne }}</strong></p>
+        </div>
+
+        <div class="empty-message" *ngIf="seances.length === 0">
+          Aucun emploi du temps trouvé pour cette sélection.
+        </div>
+
+        <div class="table-wrapper" *ngIf="seances.length > 0">
+
+          <table class="timetable">
+
+            <thead>
+              <tr>
+                <th class="day-header">Jour</th>
+
+                <th *ngFor="let horaire of horaires">
+                  {{ horaire.debut }} - {{ horaire.fin }}
+                </th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let jour of jours">
+
+                <th class="day-cell">{{ jour }}</th>
+
+                <td *ngFor="let horaire of horaires">
+
+                  <ng-container *ngIf="trouverSeance(jour, horaire) as seance">
+
+                    <div
+                      class="seance-card"
+                      [ngClass]="afficherType(seance.type) === 'TP' ? 'tp' : 'cours'">
+
+                      <strong>{{ seance.matiereNom }}</strong>
+                      <span>{{ afficherType(seance.type) }}</span>
+                      <small>Enseignant : {{ seance.professeurNom }}</small>
+                      <small>Salle : {{ seance.salleNom }}</small>
+
+                    </div>
+
+                  </ng-container>
+
+                </td>
+
+              </tr>
+            </tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+</div>

@@ -17,9 +17,13 @@ export interface ProfesseurRequest {
   nom: string;
   prenom: string;
   email: string;
-  motDePasse: string;
   specialite: string;
   departementId: number;
+}
+
+export interface ProfesseurCreationResponse {
+  professeur: Professeur;
+  motDePasseTemporaire: string;
 }
 
 @Injectable({
@@ -39,8 +43,11 @@ export class ProfesseurService {
     return this.http.get<number>(`${this.apiUrl}/count`);
   }
 
-  ajouter(professeur: ProfesseurRequest): Observable<Professeur> {
-    return this.http.post<Professeur>(this.apiUrl, professeur);
+  ajouter(professeur: ProfesseurRequest): Observable<ProfesseurCreationResponse> {
+    return this.http.post<ProfesseurCreationResponse>(
+      this.apiUrl,
+      professeur
+    );
   }
 
   modifier(id: number, professeur: ProfesseurRequest): Observable<Professeur> {

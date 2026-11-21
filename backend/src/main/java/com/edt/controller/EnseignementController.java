@@ -2,7 +2,7 @@
 package com.edt.controller;
 
 import com.edt.dto.EnseignementDTO;
-import com.edt.Service.EnseignementService;
+import com.edt.service.EnseignementService;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

@@ -9,7 +9,7 @@ export interface LoginResponse {
   nom: string;
   prenom: string;
   email: string;
-  role: string;
+  role: 'ADMINISTRATEUR' | 'SOUS_ADMINISTRATEUR' | 'PROFESSEUR' | 'ETUDIANT';
 }
 
 @Injectable({
@@ -29,6 +29,7 @@ export class AuthService {
       tap(response => {
         localStorage.setItem('token', response.token);
         localStorage.setItem('role', response.role);
+        localStorage.setItem('user', JSON.stringify(response));
       })
     );
   }
@@ -37,9 +38,9 @@ export class AuthService {
     return localStorage.getItem('token');
   }
 
- logout(): void {
-  localStorage.removeItem('token');
-  localStorage.removeItem('role');
-  localStorage.clear();
-}
+  logout(): void {
+    localStorage.removeItem('token');
+    localStorage.removeItem('role');
+    localStorage.removeItem('user');
+  }
 }

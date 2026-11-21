@@ -1,0 +1,59 @@
+ <div class="dashboard-etudiant">
+
+  <app-menu-etudiant></app-menu-etudiant>
+
+  <div class="contenu">
+    <h1>Bienvenue dans votre espace étudiant 🎓</h1>
+    <p>Consultez vos informations et votre espace académique.</p>
+
+    <div *ngIf="chargement" class="message">
+      Chargement des étudiants...
+    </div>
+
+    <div *ngIf="messageErreur" class="erreur">
+      {{ messageErreur }}
+    </div>
+
+    <div *ngIf="!chargement && !messageErreur">
+
+      <div class="cartes">
+        <div class="carte">
+          <h3>Total des étudiants</h3>
+          <p>{{ etudiants.length }}</p>
+        </div>
+      </div>
+
+      <h2>Liste des étudiants</h2>
+
+      <table *ngIf="etudiants.length > 0">
+        <thead>
+          <tr>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Email</th>
+            <th>Matricule</th>
+            <th>Groupe</th>
+            <th>Filière</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let etudiant of etudiants">
+            <td>{{ etudiant.nom }}</td>
+            <td>{{ etudiant.prenom }}</td>
+            <td>{{ etudiant.email }}</td>
+            <td>{{ etudiant.matricule }}</td>
+            <td>{{ etudiant.groupe }}</td>
+            <td>{{ etudiant.filiere }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p *ngIf="etudiants.length === 0">
+        Aucun étudiant trouvé.
+      </p>
+
+    </div>
+  </div>
+
+</div>

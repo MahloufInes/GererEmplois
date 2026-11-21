@@ -5,7 +5,6 @@
 
   <main class="content">
 
-    <!-- BANNIERE -->
     <section class="hero">
       <div>
         <h1>Gestion des enseignants</h1>
@@ -13,7 +12,6 @@
       </div>
     </section>
 
-    <!-- BOUTON AJOUT UNIQUE -->
     <div class="actions">
       <button
         class="btn-add"
@@ -33,9 +31,19 @@
       {{ messageErreur }}
     </p>
 
-    <!-- FENETRE MODALE -->
-    <div class="modal-overlay" *ngIf="afficherFormulaire">
+    <!-- MOT DE PASSE TEMPORAIRE -->
+    <div *ngIf="motDePasseTemporaire" class="success">
+      <h3>Compte créé avec succès !</h3>
+      <p>Mot de passe temporaire du professeur :</p>
+      <strong>{{ motDePasseTemporaire }}</strong>
 
+      <button type="button" (click)="copierMotDePasse()">
+        Copier le mot de passe
+      </button>
+    </div>
+
+    <!-- FORMULAIRE NOUVEL ENSEIGNANT -->
+    <div class="modal-overlay" *ngIf="afficherFormulaire">
       <div class="modal-container">
 
         <div class="modal-header">
@@ -87,11 +95,9 @@
             <div class="form-group">
               <label>Mot de passe</label>
               <input
-                type="password"
-                name="motDePasse"
-                [(ngModel)]="nouveauProfesseur.motDePasse"
-                required
-                placeholder="Mot de passe">
+                type="text"
+                value="Généré automatiquement"
+                disabled>
             </div>
 
             <div class="form-group">
@@ -148,7 +154,94 @@
       </div>
     </div>
 
-    <!-- TABLEAU -->
+    <!-- MODALE MATIERES PREFEREES -->
+    <div class="modal-overlay" *ngIf="afficherPreferences">
+
+      <div class="modal-container">
+
+        <div class="modal-header">
+          <div>
+            <h2>Matières préférées</h2>
+            <p *ngIf="professeurSelectionne">
+              Professeur :
+              {{ professeurSelectionne.nom }}
+              {{ professeurSelectionne.prenom }}
+            </p>
+          </div>
+
+          <button
+            class="close-btn"
+            type="button"
+            (click)="fermerPreferences()">×</button>
+        </div>
+
+        <!-- AJOUT MATIERE -->
+        <div class="form-group">
+          <label>Choisir une matière</label>
+
+          <select
+            name="matiereSelectionnee"
+            [(ngModel)]="matiereSelectionnee">
+
+            <option [ngValue]="0">
+              Sélectionner une matière
+            </option>
+
+            <option
+              *ngFor="let m of matieresDisponibles"
+              [ngValue]="m.id">
+              {{ m.nom }}
+            </option>
+
+          </select>
+        </div>
+
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn-save"
+            (click)="ajouterPreference()"
+            [disabled]="enregistrementPreference || matiereSelectionnee <= 0">
+            {{ enregistrementPreference ? 'Ajout...' : 'Ajouter la matière' }}
+          </button>
+        </div>
+
+        <hr>
+
+        <!-- LISTE DES PREFERENCES -->
+        <h3>Matières sélectionnées</h3>
+
+        <p *ngIf="chargementPreferences">
+          Chargement des préférences...
+        </p>
+
+        <div *ngIf="!chargementPreferences">
+
+          <div
+            *ngFor="let pref of preferences"
+            class="preference-item">
+
+            <span>{{ pref.matiere.nom }}</span>
+
+            <button
+              type="button"
+              class="btn-delete-preference"
+              (click)="supprimerPreference(pref.matiere.id)">
+              Supprimer
+            </button>
+
+          </div>
+
+          <p *ngIf="preferences.length === 0">
+            Aucune matière préférée pour ce professeur.
+          </p>
+
+        </div>
+
+      </div>
+    </div>
+
+    <!-- TABLEAU DES PROFESSEURS -->
     <div class="card">
 
       <div class="card-header">
@@ -169,6 +262,7 @@
               <th>Email</th>
               <th>Spécialité</th>
               <th>Département</th>
+              <th>Préférences</th>
             </tr>
           </thead>
 
@@ -181,10 +275,21 @@
               <td>{{ p.email }}</td>
               <td>{{ p.specialite }}</td>
               <td>{{ p.nomDepartement || '-' }}</td>
+
+              <td>
+                <button
+                  type="button"
+                  class="btn-preferences"
+                  (click)="ouvrirPreferences(p)">
+                  Gérer les matières
+                </button>
+              </td>
             </tr>
 
             <tr *ngIf="professeurs.length === 0">
-              <td colspan="6">Aucun professeur enregistré.</td>
+              <td colspan="7">
+                Aucun professeur enregistré.
+              </td>
             </tr>
 
           </tbody>

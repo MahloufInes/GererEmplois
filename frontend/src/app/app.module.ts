@@ -24,6 +24,10 @@ import { SallesComponent } from './administrateur/salles/salles.component';
 import { CreneauxHorairesComponent } from './administrateur/creneaux-horaires/creneaux-horaires.component';
 import { GenererEmploiComponent } from './administrateur/generer-emploi/generer-emploi.component';
 import { MatieresComponent } from './matieres/matieres.component';
+import { DashboardProfesseurComponent } from './professeur/dashboard-professeur/dashboard-professeur.component';
+import { DashboardEtudiantComponent } from './etudiant/dashboard-etudiant/dashboard-etudiant.component';
+import { MenuEtudiantComponent } from './app/menu-etudiant/menu-etudiant.component';
+import { MenuProfesseurComponent } from './app/menu-professeur/menu-professeur.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +45,11 @@ import { MatieresComponent } from './matieres/matieres.component';
     SallesComponent,
     CreneauxHorairesComponent,
     GenererEmploiComponent,
-    MatieresComponent
+    MatieresComponent,
+    DashboardProfesseurComponent,
+    DashboardEtudiantComponent,
+    MenuEtudiantComponent,
+    MenuProfesseurComponent
   ],
   imports: [
     BrowserModule,

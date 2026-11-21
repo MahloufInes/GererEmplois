@@ -1,0 +1,31 @@
+
+<aside class="sidebar">
+
+  <div class="logo">
+    <h2>EduPlanning</h2>
+    <p>Espace étudiant</p>
+  </div>
+
+  <nav>
+    <a routerLink="/dashboard-etudiant" routerLinkActive="active">
+      🏠 Dashboard
+    </a>
+
+    <a routerLink="/emploi-etudiant" routerLinkActive="active">
+      📅 Mon emploi du temps
+    </a>
+
+    <a routerLink="/matieres-etudiant" routerLinkActive="active">
+      📚 Mes matières
+    </a>
+
+    <a routerLink="/profil-etudiant" routerLinkActive="active">
+      👤 Mon profil
+    </a>
+  </nav>
+
+  <button class="logout" (click)="deconnecter()">
+    🚪 Déconnexion
+  </button>
+
+</aside>

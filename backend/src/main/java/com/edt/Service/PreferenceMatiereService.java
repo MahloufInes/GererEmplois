@@ -1,5 +1,5 @@
 
-package com.edt.Service;
+package com.edt.service;
 
 import com.edt.entity.Matiere;
 import com.edt.entity.Professeur;

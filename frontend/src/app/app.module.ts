@@ -28,6 +28,11 @@ import { DashboardProfesseurComponent } from './professeur/dashboard-professeur/
 import { DashboardEtudiantComponent } from './etudiant/dashboard-etudiant/dashboard-etudiant.component';
 import { MenuEtudiantComponent } from './app/menu-etudiant/menu-etudiant.component';
 import { MenuProfesseurComponent } from './app/menu-professeur/menu-professeur.component';
+import { EmploiProfesseurComponent } from './professeur/emploi-professeur/emploi-professeur.component';
+import { ProfilProfesseurComponent } from './professeur/profil-professeur/profil-professeur.component';
+import { MesDisponibilitesComponent } from './professeur/mes-disponibilites/mes-disponibilites.component';
+import { ProfilEtudiantComponent } from './etudiant/profil-etudiant/profil-etudiant.component';
+import { EmploiEtudiantComponent } from './etudiant/emploi-etudiant/emploi-etudiant.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +54,12 @@ import { MenuProfesseurComponent } from './app/menu-professeur/menu-professeur.c
     DashboardProfesseurComponent,
     DashboardEtudiantComponent,
     MenuEtudiantComponent,
-    MenuProfesseurComponent
+    MenuProfesseurComponent,
+    EmploiProfesseurComponent,
+    ProfilProfesseurComponent,
+    MesDisponibilitesComponent,
+    ProfilEtudiantComponent,
+    EmploiEtudiantComponent
   ],
   imports: [
     BrowserModule,

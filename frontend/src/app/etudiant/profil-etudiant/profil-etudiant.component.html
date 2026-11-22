@@ -1,0 +1,96 @@
+
+<div class="profil-container">
+
+  <app-menu-etudiant></app-menu-etudiant>
+
+  <main class="contenu">
+
+    <div class="entete">
+      <h1>👤 Mon profil</h1>
+      <p>Consultez vos informations personnelles et académiques.</p>
+    </div>
+
+    <div *ngIf="chargement" class="message">
+      Chargement de votre profil...
+    </div>
+
+    <div *ngIf="messageErreur" class="erreur">
+      {{ messageErreur }}
+    </div>
+
+    <div *ngIf="!chargement && etudiant">
+
+      <section class="profil-header">
+
+        <div class="avatar">
+          {{ etudiant.prenom.charAt(0).toUpperCase() }}
+        </div>
+
+        <div>
+          <h2>{{ etudiant.prenom }} {{ etudiant.nom }}</h2>
+          <p>{{ etudiant.email }}</p>
+          <span class="role">Étudiant</span>
+        </div>
+
+      </section>
+
+      <section class="information-card">
+
+        <h2>Informations personnelles</h2>
+
+        <div class="informations">
+
+          <div class="info">
+            <span>Nom</span>
+            <strong>{{ etudiant.nom }}</strong>
+          </div>
+
+          <div class="info">
+            <span>Prénom</span>
+            <strong>{{ etudiant.prenom }}</strong>
+          </div>
+
+          <div class="info">
+            <span>Adresse email</span>
+            <strong>{{ etudiant.email }}</strong>
+          </div>
+
+          <div class="info">
+            <span>Matricule</span>
+            <strong>{{ etudiant.matricule || 'Non renseigné' }}</strong>
+          </div>
+
+        </div>
+
+      </section>
+
+      <section class="information-card">
+
+        <h2>Informations académiques</h2>
+
+        <div class="informations">
+
+          <div class="info">
+            <span>Groupe</span>
+            <strong>{{ etudiant.groupe || 'Non affecté' }}</strong>
+          </div>
+
+          <div class="info">
+            <span>Filière</span>
+            <strong>{{ etudiant.filiere || 'Non renseignée' }}</strong>
+          </div>
+
+          <div class="info">
+            <span>Identifiant étudiant</span>
+            <strong>{{ etudiant.id }}</strong>
+          </div>
+
+        </div>
+
+      </section>
+
+    </div>
+
+  </main>
+
+</div>

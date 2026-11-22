@@ -8,7 +8,7 @@ import com.edt.entity.Professeur;
 import com.edt.entity.enums.Role;
 import com.edt.repository.DepartementRepository;
 import com.edt.repository.ProfesseurRepository;
-
+import com.edt.dto.ProfesseurProfilRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -44,7 +44,52 @@ public class ProfesseurService {
     }
 
     // Ajouter un professeur
+    @Transactional(readOnly = true)
+    public ProfesseurResponse afficherMonProfil(String email) {
 
+        Professeur professeur = professeurRepository.findByEmail(email)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Professeur introuvable"
+                ));
+
+        return convertirEnResponse(professeur);
+    }
+    @Transactional
+    public ProfesseurResponse modifierMonProfil(
+            String emailConnecte,
+            ProfesseurProfilRequest request) {
+
+        Professeur professeur = professeurRepository.findByEmail(emailConnecte)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Professeur introuvable"
+                ));
+
+        professeurRepository.findByEmail(request.email())
+                .filter(p -> !p.getId().equals(professeur.getId()))
+                .ifPresent(p -> {
+                    throw new ResponseStatusException(
+                            HttpStatus.CONFLICT,
+                            "Cet email existe déjà"
+                    );
+                });
+
+        professeur.setNom(request.nom());
+        professeur.setPrenom(request.prenom());
+        professeur.setEmail(request.email());
+        professeur.setSpecialite(request.specialite());
+
+        if (request.motDePasse() != null
+                && !request.motDePasse().isBlank()) {
+
+            professeur.setMotDePasse(
+                    passwordEncoder.encode(request.motDePasse())
+            );
+        }
+
+        return convertirEnResponse(professeurRepository.save(professeur));
+    }
     @Transactional
     public ProfesseurCreationResponse ajouter(ProfesseurRequest request) {
 

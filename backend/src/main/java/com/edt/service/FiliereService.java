@@ -1,5 +1,5 @@
 
-package com.edt.Service;
+package com.edt.service;
 
 import com.edt.dto.FiliereRequest;
 import com.edt.dto.FiliereResponse;

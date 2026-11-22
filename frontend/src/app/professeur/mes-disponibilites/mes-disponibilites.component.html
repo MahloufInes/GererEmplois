@@ -1,0 +1,101 @@
+
+<div class="profile-layout">
+
+  <app-menu-professeur></app-menu-professeur>
+
+  <main class="content">
+
+    <div class="page-header">
+      <h2>🕒 Mes disponibilités</h2>
+      <p>Déclarez les créneaux horaires pendant lesquels vous êtes disponible.</p>
+    </div>
+
+    <div class="alert success" *ngIf="messageSucces">
+      {{ messageSucces }}
+    </div>
+
+    <div class="alert error" *ngIf="messageErreur">
+      {{ messageErreur }}
+    </div>
+
+    <section class="form-card">
+      <h3>
+        {{ disponibiliteId ? 'Modifier une disponibilité' : 'Ajouter une disponibilité' }}
+      </h3>
+
+      <form (ngSubmit)="enregistrer()">
+
+        <label for="creneau">Sélectionner un créneau horaire</label>
+
+        <select
+          id="creneau"
+          name="creneauId"
+          [(ngModel)]="creneauId"
+          required>
+
+          <option [ngValue]="null">-- Choisir un créneau --</option>
+
+          <option *ngFor="let c of creneaux" [ngValue]="c.id">
+            {{ c.jour }} : {{ c.heureDebut }} - {{ c.heureFin }}
+          </option>
+
+        </select>
+
+        <div class="actions">
+          <button type="submit" [disabled]="creneauId === null">
+            {{ disponibiliteId ? 'Enregistrer les modifications' : 'Ajouter' }}
+          </button>
+
+          <button
+            type="button"
+            class="cancel"
+            *ngIf="disponibiliteId"
+            (click)="annuler()">
+            Annuler
+          </button>
+        </div>
+
+      </form>
+    </section>
+
+    <section class="table-card">
+      <h3>Mes créneaux disponibles</h3>
+
+      <p *ngIf="chargement">Chargement...</p>
+
+      <table *ngIf="!chargement && disponibilites.length > 0">
+        <thead>
+          <tr>
+            <th>Jour</th>
+            <th>Heure début</th>
+            <th>Heure fin</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let d of disponibilites">
+            <td>{{ d.jour }}</td>
+            <td>{{ d.heureDebut }}</td>
+            <td>{{ d.heureFin }}</td>
+            <td class="table-actions">
+              <button class="edit" (click)="modifier(d)">
+                Modifier
+              </button>
+
+              <button class="delete" (click)="supprimer(d.id)">
+                Supprimer
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p class="empty" *ngIf="!chargement && disponibilites.length === 0">
+        Aucune disponibilité enregistrée.
+      </p>
+
+    </section>
+
+  </main>
+</div>

@@ -1,15 +1,19 @@
 
 package com.edt.controller;
 
+import com.edt.dto.ProfesseurCreationResponse;
+import com.edt.dto.ProfesseurProfilRequest;
 import com.edt.dto.ProfesseurRequest;
 import com.edt.dto.ProfesseurResponse;
 import com.edt.service.ProfesseurService;
-import com.edt.dto.ProfesseurCreationResponse;
+
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/professeurs")
@@ -40,6 +44,28 @@ public class ProfesseurController {
     public ProfesseurCreationResponse ajouter(
             @Valid @RequestBody ProfesseurRequest request) {
         return professeurService.ajouter(request);
+    }
+
+    // Afficher le profil du professeur connecté
+    @GetMapping("/mon-profil")
+    public ProfesseurResponse afficherMonProfil(
+            Authentication authentication) {
+
+        return professeurService.afficherMonProfil(
+                authentication.getName()
+        );
+    }
+
+    // Modifier le profil du professeur connecté
+    @PutMapping("/mon-profil")
+    public ProfesseurResponse modifierMonProfil(
+            Authentication authentication,
+            @Valid @RequestBody ProfesseurProfilRequest request) {
+
+        return professeurService.modifierMonProfil(
+                authentication.getName(),
+                request
+        );
     }
 
     // Modifier un professeur

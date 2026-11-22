@@ -1,59 +1,131 @@
- <div class="dashboard-etudiant">
+
+<div class="dashboard-etudiant">
 
   <app-menu-etudiant></app-menu-etudiant>
 
-  <div class="contenu">
-    <h1>Bienvenue dans votre espace étudiant 🎓</h1>
-    <p>Consultez vos informations et votre espace académique.</p>
+  <main class="contenu">
 
     <div *ngIf="chargement" class="message">
-      Chargement des étudiants...
+      Chargement de votre espace étudiant...
     </div>
 
     <div *ngIf="messageErreur" class="erreur">
       {{ messageErreur }}
     </div>
 
-    <div *ngIf="!chargement && !messageErreur">
+    <div *ngIf="!chargement && etudiant">
 
-      <div class="cartes">
-        <div class="carte">
-          <h3>Total des étudiants</h3>
-          <p>{{ etudiants.length }}</p>
+      <!-- Bienvenue -->
+      <section class="bienvenue">
+        <div>
+          <span class="sous-titre">ESPACE ÉTUDIANT</span>
+
+          <h1>
+            Bienvenue {{ etudiant.prenom }} {{ etudiant.nom }} 🎓
+          </h1>
+
+          <p>
+            Retrouvez ici toutes les informations concernant votre parcours universitaire.
+          </p>
         </div>
-      </div>
 
-      <h2>Liste des étudiants</h2>
+        <div class="avatar">
+          {{ etudiant.prenom.charAt(0).toUpperCase() }}
+        </div>
+      </section>
 
-      <table *ngIf="etudiants.length > 0">
-        <thead>
-          <tr>
-            <th>Nom</th>
-            <th>Prénom</th>
-            <th>Email</th>
-            <th>Matricule</th>
-            <th>Groupe</th>
-            <th>Filière</th>
-          </tr>
-        </thead>
+      <!-- Informations -->
+      <h2>Mes informations académiques</h2>
 
-        <tbody>
-          <tr *ngFor="let etudiant of etudiants">
-            <td>{{ etudiant.nom }}</td>
-            <td>{{ etudiant.prenom }}</td>
-            <td>{{ etudiant.email }}</td>
-            <td>{{ etudiant.matricule }}</td>
-            <td>{{ etudiant.groupe }}</td>
-            <td>{{ etudiant.filiere }}</td>
-          </tr>
-        </tbody>
-      </table>
+      <section class="cartes">
 
-      <p *ngIf="etudiants.length === 0">
-        Aucun étudiant trouvé.
-      </p>
+        <div class="carte">
+          <div class="icone violet">👤</div>
+          <div>
+            <h3>Matricule</h3>
+            <p>{{ etudiant.matricule || 'Non renseigné' }}</p>
+          </div>
+        </div>
+
+        <div class="carte">
+          <div class="icone bleu">👥</div>
+          <div>
+            <h3>Mon groupe</h3>
+            <p>{{ etudiant.groupe || 'Non affecté' }}</p>
+          </div>
+        </div>
+
+        <div class="carte">
+          <div class="icone orange">📚</div>
+          <div>
+            <h3>Ma filière</h3>
+            <p>{{ etudiant.filiere || 'Non renseignée' }}</p>
+          </div>
+        </div>
+
+        <div class="carte">
+          <div class="icone vert">✉️</div>
+          <div>
+            <h3>Mon adresse email</h3>
+            <p>{{ etudiant.email }}</p>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- Accès rapides -->
+      <h2>Mon espace académique</h2>
+
+      <section class="acces-rapides">
+
+        <a routerLink="/emploi-etudiant" class="acces-card">
+          <div class="acces-icone">📅</div>
+          <div>
+            <h3>Mon emploi du temps</h3>
+            <p>Consulter mes cours et mes horaires.</p>
+          </div>
+          <span>→</span>
+        </a>
+
+        <a routerLink="/matieres-etudiant" class="acces-card">
+          <div class="acces-icone">📚</div>
+          <div>
+            <h3>Mes matières</h3>
+            <p>Consulter les matières de ma filière.</p>
+          </div>
+          <span>→</span>
+        </a>
+
+        <a routerLink="/profil-etudiant" class="acces-card">
+          <div class="acces-icone">👤</div>
+          <div>
+            <h3>Mon profil</h3>
+            <p>Consulter mes informations personnelles.</p>
+          </div>
+          <span>→</span>
+        </a>
+
+      </section>
+
+      <!-- Résumé -->
+      <section class="resume">
+        <h2>Mon parcours universitaire</h2>
+
+        <p>
+          Bonjour <strong>{{ etudiant.prenom }} {{ etudiant.nom }}</strong>,
+          vous êtes inscrit(e) dans la filière
+          <strong>{{ etudiant.filiere || 'non renseignée' }}</strong>
+          et affecté(e) au groupe
+          <strong>{{ etudiant.groupe || 'non affecté' }}</strong>.
+        </p>
+
+        <p>
+          Consultez régulièrement votre espace pour suivre votre emploi du temps
+          et vos matières.
+        </p>
+      </section>
 
     </div>
-  </div>
 
+  </main>
 </div>

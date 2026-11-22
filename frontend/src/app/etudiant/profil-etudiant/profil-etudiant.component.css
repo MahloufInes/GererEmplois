@@ -1,0 +1,144 @@
+
+.profil-container {
+  display: flex;
+  min-height: 100vh;
+  background: #f5f3ff;
+  font-family: Arial, sans-serif;
+}
+
+.contenu {
+  flex: 1;
+  min-width: 0;
+  padding: 35px;
+}
+
+.entete {
+  margin-bottom: 30px;
+}
+
+.entete h1 {
+  color: #5b21b6;
+  font-size: 27px;
+}
+
+.entete p {
+  color: #6b7280;
+}
+
+.profil-header {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  background: linear-gradient(120deg, #5b21b6, #8b5cf6);
+  padding: 30px;
+  border-radius: 15px;
+  color: white;
+  margin-bottom: 25px;
+}
+
+.avatar {
+  width: 85px;
+  height: 85px;
+  min-width: 85px;
+  border-radius: 50%;
+  background: white;
+  color: #6d28d9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 35px;
+  font-weight: bold;
+}
+
+.profil-header h2 {
+  margin: 0 0 10px;
+}
+
+.profil-header p {
+  color: #ede9fe;
+  margin-bottom: 12px;
+}
+
+.role {
+  background: #ede9fe;
+  color: #5b21b6;
+  padding: 6px 15px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.information-card {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  margin-bottom: 25px;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.04);
+}
+
+.information-card h2 {
+  color: #5b21b6;
+  font-size: 20px;
+  margin-bottom: 25px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 15px;
+}
+
+.informations {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 25px;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  overflow-wrap: anywhere;
+}
+
+.info span {
+  color: #9ca3af;
+  font-size: 13px;
+}
+
+.info strong {
+  color: #374151;
+  font-size: 15px;
+}
+
+.message, .erreur {
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.message {
+  background: #ede9fe;
+  color: #5b21b6;
+}
+
+.erreur {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+@media (max-width: 700px) {
+  .contenu {
+    padding: 18px;
+  }
+
+  .informations {
+    grid-template-columns: 1fr;
+  }
+
+  .profil-header {
+    padding: 20px;
+  }
+
+  .avatar {
+    width: 60px;
+    height: 60px;
+    min-width: 60px;
+  }
+}

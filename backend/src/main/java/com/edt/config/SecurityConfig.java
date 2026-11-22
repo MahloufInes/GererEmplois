@@ -89,8 +89,10 @@ public class SecurityConfig {
                             "ADMINISTRATEUR",
                             "SOUS_ADMINISTRATEUR"
                     )
-
+                    .requestMatchers("/api/professeurs/mon-profil")
+                    .hasRole("PROFESSEUR")
                     // All other endpoints require authentication
+                    .requestMatchers("/api/etudiants/mon-profil").hasRole("ETUDIANT")
                     .anyRequest().authenticated()
             )
 

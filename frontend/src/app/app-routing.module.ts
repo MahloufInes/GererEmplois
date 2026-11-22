@@ -15,17 +15,43 @@ import { SallesComponent } from './administrateur/salles/salles.component';
 import { CreneauxHorairesComponent } from './administrateur/creneaux-horaires/creneaux-horaires.component';
 import { GenererEmploiComponent } from './administrateur/generer-emploi/generer-emploi.component';
 import { MatieresComponent } from './matieres/matieres.component';
-
+import { EmploiEtudiantComponent } from './etudiant/emploi-etudiant/emploi-etudiant.component';
 import { DashboardProfesseurComponent } from './professeur/dashboard-professeur/dashboard-professeur.component';
-
+import { ProfilEtudiantComponent } from './etudiant/profil-etudiant/profil-etudiant.component';
 import { AuthGuard } from './auth.guard';
 import { DashboardEtudiantComponent } from './etudiant/dashboard-etudiant/dashboard-etudiant.component';
-
+import { EmploiProfesseurComponent } from './professeur/emploi-professeur/emploi-professeur.component';
+import { ProfilProfesseurComponent } from './professeur/profil-professeur/profil-professeur.component';
+import { MesDisponibilitesComponent } from './professeur/mes-disponibilites/mes-disponibilites.component';
 const routes: Routes = [
 
   { path: '', component: LoginComponent },
 
   // ESPACE ADMINISTRATEUR
+  {
+  path: 'profil-etudiant',
+  component: ProfilEtudiantComponent,
+  canActivate: [AuthGuard],
+  data: { roles: ['ETUDIANT'] }
+},
+{
+  path: 'emploi-etudiant',
+  component: EmploiEtudiantComponent,
+  canActivate: [AuthGuard],
+  data: { roles: ['ETUDIANT'] }
+},
+  {
+  path: 'mes-disponibilites',
+  component: MesDisponibilitesComponent,
+  canActivate: [AuthGuard],
+  data: { roles: ['PROFESSEUR'] }
+},
+  {
+  path: 'profil-professeur',
+  component: ProfilProfesseurComponent,
+  canActivate: [AuthGuard],
+  data: { roles: ['PROFESSEUR'] }
+},
   {
     path: 'dashboard',
     component: DashboardComponent,
@@ -62,6 +88,12 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     data: { roles: ['ADMINISTRATEUR', 'SOUS_ADMINISTRATEUR'] }
   },
+  {
+  path: 'emploi-professeur',
+  component: EmploiProfesseurComponent,
+  canActivate: [AuthGuard],
+  data: { roles: ['PROFESSEUR'] }
+},
   {
     path: 'crudDepartements',
     component: CrudDepartementsComponent,

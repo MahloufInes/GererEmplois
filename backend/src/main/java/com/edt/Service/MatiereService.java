@@ -25,7 +25,12 @@ public class MatiereService {
         this.matiereRepository = matiereRepository;
         this.departementRepository = departementRepository;
     }
-
+    public List<MatiereResponse> getMatieresByGroupe(Long groupeId) {
+        return matiereRepository.findMatieresByGroupeId(groupeId)
+                .stream()
+                .map(this::toResponse)
+                .toList();
+    }
     // Convert entity to response DTO
     private MatiereResponse toResponse(Matiere matiere) {
         Long departementId = null;

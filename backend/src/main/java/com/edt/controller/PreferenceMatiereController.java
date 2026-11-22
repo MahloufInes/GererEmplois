@@ -2,7 +2,7 @@
 package com.edt.controller;
 
 import com.edt.entity.PreferenceMatiere;
-import com.edt.Service.PreferenceMatiereService;
+import com.edt.service.PreferenceMatiereService;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

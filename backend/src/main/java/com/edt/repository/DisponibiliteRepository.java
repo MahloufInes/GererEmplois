@@ -2,12 +2,21 @@ package com.edt.repository;
 
 import com.edt.entity.Disponibilite;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
-@Repository
-public interface DisponibiliteRepository extends JpaRepository<Disponibilite, Long> {
-    List<Disponibilite> findByProfesseurId(Long professeurId);
-    boolean existsByProfesseurIdAndCreneauId(Long professeurId, Long creneauId);
+public interface DisponibiliteRepository
+        extends JpaRepository<Disponibilite, Long> {
+
+    List<Disponibilite> findByProfesseurEmail(String email);
+
+    Optional<Disponibilite> findByIdAndProfesseurEmail(
+            Long id, String email);
+
+    boolean existsByProfesseurEmailAndCreneauId(
+            String email, Long creneauId);
+
+    boolean existsByProfesseurIdAndCreneauId(
+            Long professeurId, Long creneauId);
 }

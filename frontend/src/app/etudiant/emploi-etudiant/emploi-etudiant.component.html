@@ -1,0 +1,87 @@
+
+<div class="emploi-container">
+  <app-menu-etudiant></app-menu-etudiant>
+  <div class="page-header">
+    <div>
+      <h2>📅 Mon emploi du temps</h2>
+      <p>Consultez les séances programmées pour votre groupe.</p>
+    </div>
+
+    <button class="refresh-btn" (click)="chargerEmploi()">
+      ↻ Actualiser
+    </button>
+  </div>
+
+  <div *ngIf="chargement" class="message">
+    Chargement de votre emploi du temps...
+  </div>
+
+  <div *ngIf="messageErreur && !chargement" class="error-message">
+    {{ messageErreur }}
+  </div>
+
+  <div *ngIf="!chargement && !messageErreur">
+
+    <div class="summary">
+      <div class="summary-card">
+        <span>📚</span>
+        <div>
+          <strong>{{ seances.length }}</strong>
+          <small>Séances programmées</small>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="seances.length === 0" class="empty-state">
+      <div class="empty-icon">📅</div>
+      <h3>Aucun emploi du temps disponible</h3>
+      <p>Votre emploi du temps n'a pas encore été publié par l'administration.</p>
+    </div>
+
+    <div *ngFor="let jour of jours" class="day-section">
+
+      <ng-container *ngIf="getSeances(jour).length > 0">
+
+        <h3 class="day-title">{{ jour }}</h3>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Horaire</th>
+                <th>Matière</th>
+                <th>Professeur</th>
+                <th>Salle</th>
+                <th>Type</th>
+                <th>Statut</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let s of getSeances(jour)">
+                <td class="horaire">
+                  {{ s.heureDebut }} - {{ s.heureFin }}
+                </td>
+                <td class="matiere">{{ s.matiere }}</td>
+                <td>{{ s.professeur }}</td>
+                <td>
+                  <span class="salle">{{ s.salle }}</span>
+                </td>
+                <td>{{ s.type }}</td>
+                <td>
+                  <span class="statut"
+                    [ngClass]="s.statut === 'PLANIFIEE' ? 'planifiee' : 'autre'">
+                    {{ s.statut }}
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </ng-container>
+
+    </div>
+  </div>
+
+</div>

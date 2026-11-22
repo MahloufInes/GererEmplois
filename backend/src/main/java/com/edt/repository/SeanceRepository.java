@@ -61,4 +61,22 @@ public interface SeanceRepository extends JpaRepository<Seance, Long> {
             Long creneauId,
             LocalDate date
     );
+
+    @Query("""
+    SELECT s
+    FROM Seance s
+    JOIN FETCH s.creneau
+    JOIN FETCH s.matiere
+    JOIN FETCH s.professeur
+    JOIN FETCH s.salle
+    JOIN FETCH s.groupe
+    JOIN FETCH s.emploiDuTemps e
+    WHERE s.groupe.id = :groupeId
+    AND e.publie = true
+    ORDER BY s.date, s.creneau.heureDebut
+""")
+    List<Seance> findSeancesPublieesByGroupeId(
+            @Param("groupeId") Long groupeId
+    );
+
 }

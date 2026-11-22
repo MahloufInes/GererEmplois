@@ -3,11 +3,12 @@ package com.edt.controller;
 
 import com.edt.dto.EtudiantRequest;
 import com.edt.dto.EtudiantResponse;
+import com.edt.dto.EtudiantCreationResponse;
 import com.edt.service.EtudiantService;
 
 import jakarta.validation.Valid;
-
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,12 +31,17 @@ public class EtudiantController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public EtudiantResponse ajouter(
+    public EtudiantCreationResponse ajouter(
             @Valid @RequestBody EtudiantRequest request) {
         return etudiantService.ajouter(request);
     }
 
-    // MODIFIER UN ETUDIANT
+    @GetMapping("/mon-profil")
+    public EtudiantResponse afficherMonProfil(
+            Authentication authentication) {
+        return etudiantService.afficherMonProfil(authentication.getName());
+    }
+
     @PutMapping("/{id}")
     public EtudiantResponse modifier(
             @PathVariable Long id,
@@ -43,7 +49,6 @@ public class EtudiantController {
         return etudiantService.modifier(id, request);
     }
 
-    // SUPPRIMER UN ETUDIANT
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void supprimer(@PathVariable Long id) {

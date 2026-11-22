@@ -1,3 +1,4 @@
+
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
@@ -25,11 +26,44 @@ export class DashboardProfesseurComponent implements OnInit {
   seances: Seance[] = [];
   chargement = false;
   messageErreur = '';
+  nomProfesseur = '';
 
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
     this.chargerEmploiDuTemps();
+  }
+
+  get nombreGroupes(): number {
+    return new Set(this.seances.map(s => s.nomGroupe).filter(Boolean)).size;
+  }
+
+  get nombreMatieres(): number {
+    return new Set(this.seances.map(s => s.nomMatiere).filter(Boolean)).size;
+  }
+
+  get prochainesSeances(): Seance[] {
+    const maintenant = new Date();
+
+    return [...this.seances]
+      .filter(s => {
+        if (!s.date) return true;
+
+        const dateSeance = new Date(`${s.date}T${s.heureDebut || '00:00'}:00`);
+        return !isNaN(dateSeance.getTime()) && dateSeance >= maintenant;
+      })
+      .sort((a, b) => {
+        const dateA = new Date(`${a.date}T${a.heureDebut || '00:00'}:00`).getTime();
+        const dateB = new Date(`${b.date}T${b.heureDebut || '00:00'}:00`).getTime();
+        return dateA - dateB;
+      })
+      .slice(0, 5);
+  }
+
+  get prochaineSeance(): Seance | null {
+    return this.prochainesSeances.length > 0
+      ? this.prochainesSeances[0]
+      : null;
   }
 
   chargerEmploiDuTemps(): void {
@@ -44,6 +78,11 @@ export class DashboardProfesseurComponent implements OnInit {
     try {
       const utilisateur = JSON.parse(user);
       const professeurId = utilisateur.id;
+
+      this.nomProfesseur =
+        utilisateur.nom && utilisateur.prenom
+          ? `${utilisateur.prenom} ${utilisateur.nom}`
+          : utilisateur.nom || utilisateur.prenom || 'Professeur';
 
       if (!professeurId || utilisateur.role !== 'PROFESSEUR') {
         this.messageErreur = 'Compte professeur invalide.';
@@ -61,12 +100,12 @@ export class DashboardProfesseurComponent implements OnInit {
         { headers }
       ).subscribe({
         next: (data: Seance[]) => {
-          this.seances = data;
+          this.seances = Array.isArray(data) ? data : [];
           this.chargement = false;
         },
         error: (error: any) => {
-          console.error('Erreur emploi du temps :', error);
-          this.messageErreur = 'Impossible de charger votre emploi du temps.';
+          console.error('Erreur tableau de bord :', error);
+          this.messageErreur = 'Impossible de charger vos informations.';
           this.chargement = false;
         }
       });

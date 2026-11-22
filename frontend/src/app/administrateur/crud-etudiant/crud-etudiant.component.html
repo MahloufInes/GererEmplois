@@ -48,6 +48,19 @@
       {{ erreur }}
     </div>
 
+    <!-- Mot de passe temporaire -->
+    <div *ngIf="motDePasseTemporaire" class="alert alert-success">
+      <h3>Compte créé avec succès !</h3>
+      <p>Mot de passe temporaire de l'étudiant :</p>
+      <strong>{{ motDePasseTemporaire }}</strong>
+
+      <button
+        type="button"
+        (click)="copierMotDePasse()">
+        Copier le mot de passe
+      </button>
+    </div>
+
     <!-- Barre de recherche -->
     <section class="toolbar">
       <div class="search-box">
@@ -96,7 +109,6 @@
               </td>
 
               <td>{{ e.matricule }}</td>
-
               <td>{{ e.filiere }}</td>
 
               <td>
@@ -104,22 +116,22 @@
               </td>
 
               <td class="right">
-  <button
-    type="button"
-    class="icon"
-    title="Modifier"
-    (click)="openEdit(e)">
-    ✏️
-  </button>
+                <button
+                  type="button"
+                  class="icon"
+                  title="Modifier"
+                  (click)="openEdit(e)">
+                  ✏️
+                </button>
 
-  <button
-    type="button"
-    class="icon del"
-    title="Supprimer"
-    (click)="supprimer(e)">
-    🗑️
-  </button>
-</td>
+                <button
+                  type="button"
+                  class="icon del"
+                  title="Supprimer"
+                  (click)="supprimer(e)">
+                  🗑️
+                </button>
+              </td>
             </tr>
 
             <tr *ngIf="filtered.length === 0 && !loading">
@@ -147,12 +159,15 @@
       </div>
     </section>
 
-    <!-- Fenêtre d'ajout -->
+    <!-- Fenêtre d'ajout / modification -->
     <div class="overlay" *ngIf="showForm">
       <div class="modal">
 
         <div class="modal-head">
-          <h2>{{ editingId === null ? 'Ajouter un étudiant' : 'Modifier un étudiant' }}</h2>
+          <h2>
+            {{ editingId === null ? 'Ajouter un étudiant' : 'Modifier un étudiant' }}
+          </h2>
+
           <button class="close" type="button" (click)="close()">✕</button>
         </div>
 
@@ -192,12 +207,12 @@
             Le matricule est obligatoire.
           </small>
 
-          <label>Mot de passe initial</label>
-          <input type="password" formControlName="motDePasse" placeholder="Mot de passe">
-
-          <small *ngIf="form.get('motDePasse')?.touched && form.get('motDePasse')?.invalid">
-            Le mot de passe est obligatoire.
-          </small>
+          <!-- Mot de passe automatique -->
+          <label>Mot de passe</label>
+          <input
+            type="text"
+            value="Généré automatiquement"
+            disabled>
 
           <label>Groupe</label>
           <select formControlName="groupeId">
@@ -218,8 +233,8 @@
             </button>
 
             <button type="submit" class="btn primary">
-  {{ editingId === null ? 'Ajouter' : 'Enregistrer les modifications' }}
-</button>
+              {{ editingId === null ? 'Ajouter' : 'Enregistrer les modifications' }}
+            </button>
           </div>
 
         </form>

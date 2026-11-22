@@ -1,5 +1,6 @@
+
 import { Component, OnInit } from '@angular/core';
-import { EtudiantService } from '../../app/services/etudiant.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 interface Etudiant {
   id: number;
@@ -19,23 +20,34 @@ interface Etudiant {
 })
 export class DashboardEtudiantComponent implements OnInit {
 
-  etudiants: Etudiant[] = [];
-  chargement = false;
+  etudiant: Etudiant | null = null;
+  chargement = true;
   messageErreur = '';
 
-  constructor(private etudiantService: EtudiantService) {}
+  constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
-    this.chargement = true;
+    this.chargerMonProfil();
+  }
 
-    this.etudiantService.afficherTous().subscribe({
-      next: (data: Etudiant[]) => {
-        this.etudiants = data;
+  chargerMonProfil(): void {
+    const token = localStorage.getItem('token');
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
+
+    this.http.get<Etudiant>(
+      'http://localhost:8081/api/etudiants/mon-profil',
+      { headers }
+    ).subscribe({
+      next: data => {
+        this.etudiant = data;
         this.chargement = false;
       },
-      error: (err: any) => {
+      error: err => {
         console.error(err);
-        this.messageErreur = 'Impossible de charger les étudiants.';
+        this.messageErreur = 'Impossible de charger vos informations.';
         this.chargement = false;
       }
     });
